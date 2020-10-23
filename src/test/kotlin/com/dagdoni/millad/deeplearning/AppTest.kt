@@ -1,11 +1,13 @@
 package com.dagdoni.millad.deeplearning
 
-import kotlin.test.Test
-import kotlin.test.assertNotNull
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+
 
 class AppTest {
-    @Test fun testAppHasAGreeting() {
+    @Test
+    fun `should init app`() {
         val classUnderTest = App()
-        assertNotNull(classUnderTest.greeting, "app should have a greeting")
+        assertThat(classUnderTest).isNotNull()
     }
 }

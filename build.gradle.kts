@@ -16,6 +16,7 @@ repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -24,15 +25,25 @@ dependencies {
 
     // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
 
-    // Use the Kotlin test library.
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    // Only necessary for JUnit 3 and 4 tests
+    testCompileOnly("junit:junit:4.12")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.3.1")
+    testImplementation("io.mockk:mockk:1.9.3")
+    testImplementation("org.assertj:assertj-core:3.11.1")
 
-    // Use the Kotlin JUnit integration.
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+
 }
 
 application {
     // Define the main class for the application.
     mainClassName = "Convolutional.neural.network.without.frameworks.in.kotlin.AppKt"
+}
+
+tasks {
+    test {
+        useJUnitPlatform()
+    }
 }
