@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.openpnp:opencv:4.3.0-2")
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
@@ -31,10 +32,8 @@ dependencies {
     // Only necessary for JUnit 3 and 4 tests
     testCompileOnly("junit:junit:4.12")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.3.1")
-    testImplementation("io.mockk:mockk:1.9.3")
-    testImplementation("org.assertj:assertj-core:3.11.1")
-
-
+    testImplementation("io.mockk:mockk:1.10.2")
+    testImplementation("org.assertj:assertj-core:3.17.2")
 }
 
 application {
