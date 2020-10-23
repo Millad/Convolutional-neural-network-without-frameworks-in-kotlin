@@ -15,14 +15,15 @@ class OpenCVAdapter() {
 
     fun lesBildetSomMatrise(navnPaBilde:String): Mat {
         val url: URL = javaClass.classLoader.getResource(navnPaBilde) ?: return Mat()
-        return Imgcodecs.imread(File(url.toURI()).toString())
+        return utforEnMatriseBitwiseNot(Imgcodecs.imread(File(url.toURI()).toString()))
     }
 
     fun utforEnMatriseBitwiseNot(originalMatrise: Mat): Mat {
         val endeligMatrise = Mat(originalMatrise.rows(),originalMatrise.cols(),originalMatrise.type())
         Core.bitwise_not(originalMatrise,endeligMatrise)
-        println(endeligMatrise.dump())
-        return endeligMatrise
+        val nyttBildeMatrise = Mat(endeligMatrise.rows(),endeligMatrise.cols(),endeligMatrise.type())
+        Core.divide(255.0,endeligMatrise,nyttBildeMatrise)
+        return nyttBildeMatrise
     }
 
 }
