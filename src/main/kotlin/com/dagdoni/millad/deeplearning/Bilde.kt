@@ -15,7 +15,7 @@ class Bilde(val navnPaBilde: String) {
 
     fun somMatrise(): Matrise {
         val url: URL = javaClass.classLoader.getResource(navnPaBilde) ?: return Matrise(0,0)
-        return Matrise(Imgcodecs.imread(File(url.toURI()).toString()))
+        return Matrise(Imgcodecs.imread(File(url.toURI()).toString())).somBitwiseNot()
     }
 
 

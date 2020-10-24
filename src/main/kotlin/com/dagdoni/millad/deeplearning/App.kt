@@ -10,7 +10,7 @@ class App(val bilde: Bilde) {
 }
 
 fun main(args: Array<String>) {
-    val app:App = App(Bilde("talletEn.png"))
+    val app = App(Bilde("talletEn.png"))
     val mat: Matrise = app.hentMatriseFraBildet()
     println(mat)
 }

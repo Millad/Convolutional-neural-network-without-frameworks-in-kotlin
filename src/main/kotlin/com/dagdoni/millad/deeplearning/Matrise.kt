@@ -27,9 +27,12 @@ class Matrise(val rad:Int,val kolonne:Int) {
         Core.bitwise_not(originalMatrise,endeligMatrise)
         val nyttBildeMatrise = Mat(endeligMatrise.rows(),endeligMatrise.cols(),endeligMatrise.type())
         Core.divide(255.0,endeligMatrise,nyttBildeMatrise)
-        return Matrise(nyttBildeMatrise.rows(),nyttBildeMatrise.cols())
+        return Matrise(nyttBildeMatrise)
     }
 
+    fun type():String{
+        return CvType.typeToString(originalMatrise.type())
+    }
     override fun toString():String{
         return originalMatrise.dump()
     }
