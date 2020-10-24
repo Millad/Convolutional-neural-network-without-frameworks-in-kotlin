@@ -3,14 +3,14 @@ package com.dagdoni.millad.deeplearning
 import org.opencv.core.Mat
 
 
-class App(val openCVAdapter: OpenCVAdapter) {
-    fun hentMatriseFraBildet(navnPaBilde:String): Mat {
-        return openCVAdapter.lesBildetSomMatrise(navnPaBilde)
+class App(val bilde: Bilde) {
+    fun hentMatriseFraBildet(): Mat {
+        return bilde.somMatrise()
     }
 }
 
 fun main(args: Array<String>) {
-    val app:App = App(OpenCVAdapter())
-    val mat: Mat = app.hentMatriseFraBildet("talletEn.png")
+    val app:App = App(Bilde("talletEn.png"))
+    val mat: Mat = app.hentMatriseFraBildet()
     println(mat.dump())
 }

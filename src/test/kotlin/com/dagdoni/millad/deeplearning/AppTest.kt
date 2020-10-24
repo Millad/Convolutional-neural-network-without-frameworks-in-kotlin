@@ -19,12 +19,12 @@ class AppTest {
 
     @Test fun `skal kunne fa tilbake riktig matrise fra openCV Adapter`(){
         // GITT
-        val openCVAdapter:OpenCVAdapter = mockk<OpenCVAdapter>()
-        val app:App = App(openCVAdapter)
+        val bilde:Bilde = mockk<Bilde>("talletEn.png")
+        val app:App = App(bilde)
 
         // NAAR
-        every { openCVAdapter.lesBildetSomMatrise(any()) } returns Mat.eye(3,3,CvType.CV_8UC1)
-        val matrise: Mat = app.hentMatriseFraBildet("talletEn.png")
+        every { bilde.somMatrise() } returns Mat.eye(3,3,CvType.CV_8UC1)
+        val matrise: Mat = app.hentMatriseFraBildet()
 
         //DA
         assertThat(matrise.dump()).isEqualTo(Mat.eye(3,3,CvType.CV_8UC1).dump())
@@ -32,10 +32,10 @@ class AppTest {
 
     @Test fun `skal kunne returnere en tom matrise naar bildet er ikke funnet`() {
         // GITT
-        val app:App = App(OpenCVAdapter())
+        val app:App = App(Bilde("feil navn"))
 
         // NAAR
-        val matrise: Mat = app.hentMatriseFraBildet("ingenting")
+        val matrise: Mat = app.hentMatriseFraBildet()
 
         //DA
         assertThat(matrise.elemSize()).isEqualTo(0)
@@ -43,6 +43,6 @@ class AppTest {
 
     @Test
     fun `skal kunne starte appen`() {
-        assertThat(App(OpenCVAdapter())).isNotNull
+        assertThat(App(Bilde(""))).isNotNull
     }
 }

@@ -7,18 +7,18 @@ import org.opencv.imgcodecs.Imgcodecs
 import java.io.File
 import java.net.URL
 
-class OpenCVAdapter() {
+class Bilde(val navnPaBilde: String) {
 
     init {
         OpenCV.loadLocally()
     }
 
-    fun lesBildetSomMatrise(navnPaBilde:String): Mat {
+    fun somMatrise(): Mat {
         val url: URL = javaClass.classLoader.getResource(navnPaBilde) ?: return Mat()
-        return utforEnMatriseBitwiseNot(Imgcodecs.imread(File(url.toURI()).toString()))
+        return somBitwiseNot(Imgcodecs.imread(File(url.toURI()).toString()))
     }
 
-    fun utforEnMatriseBitwiseNot(originalMatrise: Mat): Mat {
+    fun somBitwiseNot(originalMatrise: Mat): Mat {
         val endeligMatrise = Mat(originalMatrise.rows(),originalMatrise.cols(),originalMatrise.type())
         Core.bitwise_not(originalMatrise,endeligMatrise)
         val nyttBildeMatrise = Mat(endeligMatrise.rows(),endeligMatrise.cols(),endeligMatrise.type())
