@@ -34,4 +34,8 @@ class Matrise(val rad:Int,val kolonne:Int) {
         return originalMatrise.dump()
     }
 
+    fun forstVerdi(): Int {
+        return originalMatrise.get(0,0)?.get(0)?.toInt() ?: 0
+    }
+
 }
