@@ -7,7 +7,7 @@ import org.opencv.core.Mat
 
 class Matrise() {
 
-    private lateinit var originalMatrise:Mat
+    private var originalMatrise:Mat
 
     constructor(rad:Int,kolonne:Int):this(){
         originalMatrise = Mat.eye(rad,kolonne, CvType.CV_8UC1)
@@ -18,6 +18,7 @@ class Matrise() {
 
     init {
         OpenCV.loadLocally()
+        originalMatrise = Mat.eye(0,0, CvType.CV_8UC1)
     }
 
     fun erTom():Boolean{

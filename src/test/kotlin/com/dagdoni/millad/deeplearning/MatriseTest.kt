@@ -19,7 +19,7 @@ class MatriseTest{
 
     @Test
     fun `skal kunne lage en tom matrise`(){
-        val matrise = Matrise(0,0)
+        val matrise = Matrise()
         assertThat(matrise.erTom()).isTrue()
         assertThat(matrise.somBitwiseNot().forstVerdi()).isEqualTo(0)
     }
