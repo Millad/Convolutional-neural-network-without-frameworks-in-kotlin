@@ -23,11 +23,11 @@ class AppTest {
         val app:App = App(bilde)
 
         // NAAR
-        every { bilde.somMatrise() } returns Mat.eye(3,3,CvType.CV_8UC1)
-        val matrise: Mat = app.hentMatriseFraBildet()
+        every { bilde.somMatrise() } returns Matrise(3,3)
+        val matrise: Matrise = app.hentMatriseFraBildet()
 
         //DA
-        assertThat(matrise.dump()).isEqualTo(Mat.eye(3,3,CvType.CV_8UC1).dump())
+        assertThat(matrise.erTom()).isFalse()
     }
 
     @Test fun `skal kunne returnere en tom matrise naar bildet er ikke funnet`() {
@@ -35,10 +35,10 @@ class AppTest {
         val app:App = App(Bilde("feil navn"))
 
         // NAAR
-        val matrise: Mat = app.hentMatriseFraBildet()
+        val matrise: Matrise = app.hentMatriseFraBildet()
 
         //DA
-        assertThat(matrise.elemSize()).isEqualTo(0)
+        assertThat(matrise.erTom()).isTrue()
     }
 
     @Test
