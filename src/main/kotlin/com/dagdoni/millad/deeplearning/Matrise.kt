@@ -1,7 +1,9 @@
 package com.dagdoni.millad.deeplearning
 
 import nu.pattern.OpenCV
-import org.opencv.core.*
+import org.opencv.core.Core
+import org.opencv.core.CvType
+import org.opencv.core.Mat
 
 class Matrise() {
 
