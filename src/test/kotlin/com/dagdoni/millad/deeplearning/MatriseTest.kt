@@ -1,11 +1,18 @@
 package com.dagdoni.millad.deeplearning
 
-import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class MatriseTest{
 
+
+    @Test
+    fun `skal kunne generere  matrise med tilferldig vekter`(){
+        val matrise = Matrise(3,3)
+        assertThat(matrise.hentVerdi(0,0)).isEqualTo(1.0)
+        matrise.tilfeldigeVekter()
+        assertThat(matrise.hentVerdi(0,0)).isGreaterThan(1.0)
+    }
 
     @Test
     fun `skal kunne opprette et kernel og at kernal har en vertikal linje med tallet 1 omringet ellers med 0`(){

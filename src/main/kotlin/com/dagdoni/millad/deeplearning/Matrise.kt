@@ -1,9 +1,7 @@
 package com.dagdoni.millad.deeplearning
 
 import nu.pattern.OpenCV
-import org.opencv.core.Core
-import org.opencv.core.CvType
-import org.opencv.core.Mat
+import org.opencv.core.*
 
 class Matrise() {
 
@@ -19,6 +17,11 @@ class Matrise() {
     init {
         OpenCV.loadLocally()
         originalMatrise = Mat.eye(0,0, CvType.CV_8UC1)
+    }
+
+
+    fun tilfeldigeVekter(){
+        Core.randu(originalMatrise,-500.0,500.0)
     }
 
     fun erTom():Boolean{
