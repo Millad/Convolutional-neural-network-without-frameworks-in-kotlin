@@ -7,7 +7,7 @@ import org.junit.Test
 class MatriseTest{
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun `skal kunne opprette et kernel og at kernal har en vertikal linje med tallet 1 omringet ellers med 0`(){
         // GITT
         val mat:Matrise = Matrise(3,3)
