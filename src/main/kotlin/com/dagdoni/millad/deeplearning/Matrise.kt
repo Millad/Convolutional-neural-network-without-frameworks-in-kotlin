@@ -55,7 +55,7 @@ class Matrise() {
         return originalMatrise.get(0,0)?.get(0)?.toInt() ?: 0
     }
 
-    fun hentVertikalKernal(antallRader:Int, antallKolonner: Int): Array<DoubleArray> {
+    private fun hentVertikalKernal(antallRader:Int, antallKolonner: Int): Array<DoubleArray> {
         val hovedKernel: ArrayList<DoubleArray> = ArrayList()
         repeat(antallRader) {
             val doubleArray = DoubleArray(antallKolonner)
@@ -69,7 +69,7 @@ class Matrise() {
         return hovedKernel.toTypedArray()
     }
 
-    fun hentHorizontalKernal(antallRader:Int, antallKolonner: Int): Array<DoubleArray> {
+    private fun hentHorizontalKernal(antallRader:Int, antallKolonner: Int): Array<DoubleArray> {
         val hovedKernel: ArrayList<DoubleArray> = ArrayList()
         repeat(antallRader) {
             val doubleArray = DoubleArray(antallKolonner)
@@ -87,24 +87,18 @@ class Matrise() {
         return hovedKernel.toTypedArray()
     }
 
-    fun lagKernelHorizontalLinje(rader:Int, kolonner: Int): Matrise {
-        val otherArray:Array<DoubleArray> = hentHorizontalKernal(rader,kolonner)
-        val matObject = Mat.zeros(rader, kolonner, CvType.CV_64FC1)
-        (0 until rader).forEach { kol ->
-            (0 until kolonner).forEach {ra ->
-                matObject.put(ra, kol, otherArray[ra][kol])
-            }
-
-        }
-        println(matObject.dump())
-        return Matrise(matObject)
+    fun hentMatriseMedHorizontalKernel(rader:Int, kolonner: Int): Matrise {
+        return tilMatrise(rader, kolonner, hentHorizontalKernal(rader,kolonner))
     }
 
-    fun lagKernelVertikalLinje(rader:Int, kolonner: Int): Matrise {
-        val otherArray:Array<DoubleArray> = hentVertikalKernal(rader,kolonner)
+    fun hentMatriseMedVertikalKernel(rader:Int, kolonner: Int): Matrise {
+        return tilMatrise(rader, kolonner, hentVertikalKernal(rader,kolonner))
+    }
+
+    private fun tilMatrise(rader: Int, kolonner: Int, otherArray: Array<DoubleArray>): Matrise {
         val matObject = Mat.zeros(rader, kolonner, CvType.CV_64FC1)
         (0 until rader).forEach { kol ->
-            (0 until kolonner).forEach {ra ->
+            (0 until kolonner).forEach { ra ->
                 matObject.put(ra, kol, otherArray[ra][kol])
             }
 

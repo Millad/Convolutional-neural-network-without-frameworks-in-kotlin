@@ -18,7 +18,7 @@ class MatriseTest{
         val mat:Matrise = Matrise(3,3)
 
         // NAAR
-        val kernelMatrise:Matrise = mat.lagKernelHorizontalLinje(3,3)
+        val kernelMatrise:Matrise = mat.hentMatriseMedHorizontalKernel(3,3)
 
         //DA
         assertThat(kernelMatrise.storrelse()).isEqualTo(Pair<Int,Int>(3,3))
@@ -39,7 +39,7 @@ class MatriseTest{
         val mat:Matrise = Matrise(3,3)
 
         // NAAR
-        val kernelMatrise:Matrise = mat.lagKernelVertikalLinje(3,3)
+        val kernelMatrise:Matrise = mat.hentMatriseMedVertikalKernel(3,3)
 
         //DA
         assertThat(kernelMatrise.storrelse()).isEqualTo(Pair<Int,Int>(3,3))
