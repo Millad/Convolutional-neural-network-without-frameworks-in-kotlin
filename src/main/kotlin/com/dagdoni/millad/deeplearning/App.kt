@@ -5,7 +5,6 @@ class App(val bilde: Bilde) {
         return bilde.somMatrise()
     }
 }
-//TODO Eksperimenter med mindre kernel storrelse
 fun main(args: Array<String>) {
     val app = App(Bilde("talletEn.png"))
     val mat: Matrise = app.hentMatriseFraBildet()

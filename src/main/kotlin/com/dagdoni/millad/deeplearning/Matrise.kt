@@ -87,9 +87,7 @@ class Matrise() {
         return hovedKernel.toTypedArray()
     }
 
-    fun lagKernelHorizontalLinje(): Matrise {
-        val rader:Int = originalMatrise.rows()
-        val kolonner:Int = originalMatrise.cols()
+    fun lagKernelHorizontalLinje(rader:Int, kolonner: Int): Matrise {
         val otherArray:Array<DoubleArray> = hentHorizontalKernal(rader,kolonner)
         val matObject = Mat.zeros(rader, kolonner, CvType.CV_64FC1)
         (0 until rader).forEach { kol ->
@@ -102,9 +100,7 @@ class Matrise() {
         return Matrise(matObject)
     }
 
-    fun lagKernelVertikalLinje(): Matrise {
-       val rader:Int = originalMatrise.rows()
-        val kolonner:Int = originalMatrise.cols()
+    fun lagKernelVertikalLinje(rader:Int, kolonner: Int): Matrise {
         val otherArray:Array<DoubleArray> = hentVertikalKernal(rader,kolonner)
         val matObject = Mat.zeros(rader, kolonner, CvType.CV_64FC1)
         (0 until rader).forEach { kol ->
