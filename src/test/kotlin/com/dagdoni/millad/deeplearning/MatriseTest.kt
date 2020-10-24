@@ -1,9 +1,23 @@
 package com.dagdoni.millad.deeplearning
 
+import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class MatriseTest{
+
+
+    @org.junit.jupiter.api.Test
+    fun `skal kunne opprette et kernel`(){
+        // GITT
+        val mat:Matrise = Matrise(2,2)
+
+        // NAAR
+        val kernelMatrise:Matrise = mat.lagKernelVertikalLinje()
+
+        //DA
+        assertThat(kernelMatrise.storrelse()).isEqualTo(Pair<Int,Int>(2,2))
+    }
 
     @Test
     fun `gitt 1 px matrise, skal man kunne returnere første innholdet i matrisen`() {

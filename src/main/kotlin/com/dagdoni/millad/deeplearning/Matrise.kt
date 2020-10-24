@@ -25,6 +25,11 @@ class Matrise() {
          return originalMatrise.size().empty()
     }
 
+
+    fun storrelse():Pair<Int,Int>{
+        return Pair(originalMatrise.rows(),originalMatrise.cols())
+    }
+
     fun somBitwiseNot(): Matrise {
         val endeligMatrise = Mat(originalMatrise.rows(),originalMatrise.cols(),originalMatrise.type())
         Core.bitwise_not(originalMatrise,endeligMatrise)
@@ -42,6 +47,33 @@ class Matrise() {
 
     fun forstVerdi(): Int {
         return originalMatrise.get(0,0)?.get(0)?.toInt() ?: 0
+    }
+
+    fun henVertiaklKernalSomArrayAvArrays(antallRader:Int, antallKolonner: Int): Array<DoubleArray> {
+        val hovedKernel: ArrayList<DoubleArray> = ArrayList()
+        (0 until antallRader).forEach {
+            val doubleArray = DoubleArray(antallKolonner)
+            (0 until antallKolonner).forEach {
+                doubleArray[it] = 0.0
+            }
+            hovedKernel.add(doubleArray)
+        }
+
+        return hovedKernel.toTypedArray()
+    }
+    fun lagKernelVertikalLinje(): Matrise {
+       val rader:Int = originalMatrise.rows()
+        val kolonner:Int = originalMatrise.cols()
+        val otherArray:Array<DoubleArray> = henVertiaklKernalSomArrayAvArrays(rader,kolonner)
+        val matObject = Mat.zeros(rader, kolonner, CvType.CV_64FC1)
+        (0 until rader).forEach { kol ->
+            (0 until kolonner).forEach {ra ->
+                matObject.put(ra, kol, otherArray[ra][kol])
+            }
+
+        }
+        println(matObject.dump())
+        return Matrise(matObject)
     }
 
 }
