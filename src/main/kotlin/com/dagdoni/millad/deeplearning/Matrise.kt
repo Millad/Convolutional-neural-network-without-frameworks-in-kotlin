@@ -51,9 +51,9 @@ class Matrise() {
 
     fun henVertiaklKernalSomArrayAvArrays(antallRader:Int, antallKolonner: Int): Array<DoubleArray> {
         val hovedKernel: ArrayList<DoubleArray> = ArrayList()
-        (0 until antallRader).forEach {
+        repeat(antallRader) {
             val doubleArray = DoubleArray(antallKolonner)
-            (0 until antallKolonner).forEach {
+            repeat(antallKolonner) {
                 doubleArray[it] = 0.0
             }
             hovedKernel.add(doubleArray)
