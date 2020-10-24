@@ -2,6 +2,7 @@ package com.dagdoni.millad.deeplearning
 
 class App(val bilde: Bilde) {
 
+    //TODO : TEST MEG
     fun conv(matrise:Matrise, kernel: Matrise):ArrayList<DoubleArray>{
         val lag_0_input: ArrayList<DoubleArray> = ArrayList<DoubleArray>()
         (0 until 3).forEach{i ->
