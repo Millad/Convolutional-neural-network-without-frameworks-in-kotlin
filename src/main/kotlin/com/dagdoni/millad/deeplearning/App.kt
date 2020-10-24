@@ -3,10 +3,10 @@ package com.dagdoni.millad.deeplearning
 class App(val bilde: Bilde) {
 
     //TODO : TEST MEG
-    fun conv(matrise:Matrise, kernel: Matrise):ArrayList<DoubleArray>{
+    fun conv(matrise:Matrise, kernel: Matrise, storrelsePaConvOperasjon:Int):ArrayList<DoubleArray>{
         val lag_0_input: ArrayList<DoubleArray> = ArrayList<DoubleArray>()
-        (0 until 3).forEach{i ->
-            (0 until 3).forEach{ j ->
+        (0 until storrelsePaConvOperasjon).forEach{i ->
+            (0 until storrelsePaConvOperasjon).forEach{ j ->
                 val lag_0:Matrise = matrise.hentVerdi(i,i+7,j,j+7)
                 val lag_1 = lag_0.multipliser(kernel)
                 val lag_1_sum = lag_1.sum()
@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
     val vekter:Matrise = Matrise().tilfeldigeVekter()
 
 
-    val lag_1 = app.conv(matriseAvBilde,vertikalKernel)
+    val lag_1 = app.conv(matriseAvBilde,vertikalKernel,3)
 
     val lag_2 = "relu"
 
