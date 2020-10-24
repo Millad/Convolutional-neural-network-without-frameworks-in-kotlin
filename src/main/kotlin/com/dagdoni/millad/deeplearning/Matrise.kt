@@ -68,6 +68,40 @@ class Matrise() {
 
         return hovedKernel.toTypedArray()
     }
+
+    fun hentHorizontalKernal(antallRader:Int, antallKolonner: Int): Array<DoubleArray> {
+        val hovedKernel: ArrayList<DoubleArray> = ArrayList()
+        repeat(antallRader) {
+            val doubleArray = DoubleArray(antallKolonner)
+            var radVerdi = 0.0
+            if(it == (antallKolonner / 2)){
+                radVerdi = 1.0
+            }
+
+            repeat(antallKolonner) {
+                doubleArray[it] = radVerdi
+            }
+            hovedKernel.add(doubleArray)
+        }
+
+        return hovedKernel.toTypedArray()
+    }
+
+    fun lagKernelHorizontalLinje(): Matrise {
+        val rader:Int = originalMatrise.rows()
+        val kolonner:Int = originalMatrise.cols()
+        val otherArray:Array<DoubleArray> = hentHorizontalKernal(rader,kolonner)
+        val matObject = Mat.zeros(rader, kolonner, CvType.CV_64FC1)
+        (0 until rader).forEach { kol ->
+            (0 until kolonner).forEach {ra ->
+                matObject.put(ra, kol, otherArray[ra][kol])
+            }
+
+        }
+        println(matObject.dump())
+        return Matrise(matObject)
+    }
+
     fun lagKernelVertikalLinje(): Matrise {
        val rader:Int = originalMatrise.rows()
         val kolonner:Int = originalMatrise.cols()
