@@ -3,7 +3,7 @@ package com.dagdoni.millad.deeplearning
 import nu.pattern.OpenCV
 import org.opencv.core.Core
 import org.opencv.core.CvType
-import org.opencv.core.Mat
+import org.opencv.core.*
 
 class Matrise() {
 
@@ -22,18 +22,35 @@ class Matrise() {
     }
 
 
-    fun tilfeldigeVekter(){
-        Core.randu(originalMatrise,-500.0,500.0)
+    fun sum():DoubleArray{
+     return Core.sumElems(originalMatrise).`val`
+    }
+
+    fun multipliser(matrise: Matrise):Matrise{
+        return Matrise(originalMatrise.mul(matrise.hentMat()))
+    }
+
+    fun hentMat():Mat{
+        return originalMatrise;
+    }
+    fun tilfeldigeVekter():Matrise{
+        if(!erTom()) Core.randu(originalMatrise,-500.0,500.0)
+        return this
     }
 
     fun erTom():Boolean{
          return originalMatrise.size().empty()
     }
 
-
-    fun hentVerdi(rad:Int,kol:Int):Double{
+    fun hentForsteVerdi(rad:Int, kol:Int):Double{
+        if(erTom()) return 0.0
         return originalMatrise.get(rad,kol).first()
     }
+
+    fun hentVerdi(radStart:Int,radSlutt:Int, kolStart:Int, kolSlutt:Int): Matrise {
+        return Matrise(originalMatrise.submat(radStart,radSlutt,kolStart,kolSlutt))
+    }
+
     fun storrelse():Pair<Int,Int>{
         return Pair(originalMatrise.rows(),originalMatrise.cols())
     }
@@ -98,7 +115,7 @@ class Matrise() {
     }
 
     private fun tilMatrise(rader: Int, kolonner: Int, otherArray: Array<DoubleArray>): Matrise {
-        val matObject = Mat.zeros(rader, kolonner, CvType.CV_64FC1)
+        val matObject = Mat.zeros(rader, kolonner, CvType.CV_8UC1)
         (0 until rader).forEach { kol ->
             (0 until kolonner).forEach { ra ->
                 matObject.put(ra, kol, otherArray[ra][kol])

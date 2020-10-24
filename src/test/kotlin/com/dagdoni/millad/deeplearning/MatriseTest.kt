@@ -6,11 +6,23 @@ import org.junit.Test
 class MatriseTest{
 
     @Test
+    fun `skal ikke kunne generere  matrise med tilferldig vekter om matrisen er tom`(){
+        val matrise = Matrise()
+        assertThat(matrise.hentForsteVerdi(0,0)).isEqualTo(0.0)
+        matrise.tilfeldigeVekter()
+        assertThat(matrise.erTom()).isTrue()
+    }
+    @Test
     fun `skal kunne generere  matrise med tilferldig vekter`(){
         val matrise = Matrise(3,3)
-        assertThat(matrise.hentVerdi(0,0)).isEqualTo(1.0)
+        assertThat(matrise.hentForsteVerdi(0,0)).isEqualTo(1.0)
         matrise.tilfeldigeVekter()
-        assertThat(matrise.hentVerdi(0,0)).isGreaterThan(1.0)
+        assertThat(matrise.tilfeldigeVekter().hentForsteVerdi(2,2)).isGreaterThan(1.0)
+    }
+    @Test
+    fun `skal kunne hente hele verdi`(){
+        val matrise = Matrise(3,3)
+        assertThat(matrise.hentVerdi(0,3,0,3).storrelse()).isEqualTo(matrise.storrelse())
     }
     @Test
     fun `skal kunne opprette et kernel og at kernal har en horizontal linje med tallet 1 omringet ellers med 0`(){
@@ -22,13 +34,13 @@ class MatriseTest{
 
         //DA
         assertThat(kernelMatrise.storrelse()).isEqualTo(Pair<Int,Int>(3,3))
-        assertThat(kernelMatrise.hentVerdi(0,0)).isEqualTo(0.0)
-        assertThat(kernelMatrise.hentVerdi(1,2)).isEqualTo(1.0)
-        assertThat(kernelMatrise.hentVerdi(1,0)).isEqualTo(1.0)
-        assertThat(kernelMatrise.hentVerdi(1,1)).isEqualTo(1.0)
-        assertThat(kernelMatrise.hentVerdi(2,1)).isEqualTo(0.0)
-        assertThat(kernelMatrise.hentVerdi(2,2)).isEqualTo(0.0)
-        assertThat(kernelMatrise.hentVerdi(2,0)).isEqualTo(0.0)
+        assertThat(kernelMatrise.hentForsteVerdi(0,0)).isEqualTo(0.0)
+        assertThat(kernelMatrise.hentForsteVerdi(1,2)).isEqualTo(1.0)
+        assertThat(kernelMatrise.hentForsteVerdi(1,0)).isEqualTo(1.0)
+        assertThat(kernelMatrise.hentForsteVerdi(1,1)).isEqualTo(1.0)
+        assertThat(kernelMatrise.hentForsteVerdi(2,1)).isEqualTo(0.0)
+        assertThat(kernelMatrise.hentForsteVerdi(2,2)).isEqualTo(0.0)
+        assertThat(kernelMatrise.hentForsteVerdi(2,0)).isEqualTo(0.0)
 
 
     }
@@ -43,9 +55,9 @@ class MatriseTest{
 
         //DA
         assertThat(kernelMatrise.storrelse()).isEqualTo(Pair<Int,Int>(3,3))
-        assertThat(kernelMatrise.hentVerdi(0,1)).isEqualTo(1.0)
-        assertThat(kernelMatrise.hentVerdi(1,1)).isEqualTo(1.0)
-        assertThat(kernelMatrise.hentVerdi(2,1)).isEqualTo(1.0)
+        assertThat(kernelMatrise.hentForsteVerdi(0,1)).isEqualTo(1.0)
+        assertThat(kernelMatrise.hentForsteVerdi(1,1)).isEqualTo(1.0)
+        assertThat(kernelMatrise.hentForsteVerdi(2,1)).isEqualTo(1.0)
     }
 
     @Test
