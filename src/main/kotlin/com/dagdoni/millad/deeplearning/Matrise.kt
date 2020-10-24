@@ -26,6 +26,9 @@ class Matrise() {
     }
 
 
+    fun hentVerdi(rad:Int,kol:Int):Double{
+        return originalMatrise.get(rad,kol).first()
+    }
     fun storrelse():Pair<Int,Int>{
         return Pair(originalMatrise.rows(),originalMatrise.cols())
     }
@@ -49,13 +52,14 @@ class Matrise() {
         return originalMatrise.get(0,0)?.get(0)?.toInt() ?: 0
     }
 
-    fun henVertiaklKernalSomArrayAvArrays(antallRader:Int, antallKolonner: Int): Array<DoubleArray> {
+    fun hentVertikalKernal(antallRader:Int, antallKolonner: Int): Array<DoubleArray> {
         val hovedKernel: ArrayList<DoubleArray> = ArrayList()
         repeat(antallRader) {
             val doubleArray = DoubleArray(antallKolonner)
             repeat(antallKolonner) {
                 doubleArray[it] = 0.0
             }
+            doubleArray[doubleArray.size / 2] = 1.0
             hovedKernel.add(doubleArray)
         }
 
@@ -64,7 +68,7 @@ class Matrise() {
     fun lagKernelVertikalLinje(): Matrise {
        val rader:Int = originalMatrise.rows()
         val kolonner:Int = originalMatrise.cols()
-        val otherArray:Array<DoubleArray> = henVertiaklKernalSomArrayAvArrays(rader,kolonner)
+        val otherArray:Array<DoubleArray> = hentVertikalKernal(rader,kolonner)
         val matObject = Mat.zeros(rader, kolonner, CvType.CV_64FC1)
         (0 until rader).forEach { kol ->
             (0 until kolonner).forEach {ra ->

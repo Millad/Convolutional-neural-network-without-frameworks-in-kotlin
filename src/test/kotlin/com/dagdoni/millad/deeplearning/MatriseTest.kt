@@ -8,15 +8,18 @@ class MatriseTest{
 
 
     @org.junit.jupiter.api.Test
-    fun `skal kunne opprette et kernel`(){
+    fun `skal kunne opprette et kernel og at kernal har en vertikal linje med tallet 1 omringet ellers med 0`(){
         // GITT
-        val mat:Matrise = Matrise(2,2)
+        val mat:Matrise = Matrise(3,3)
 
         // NAAR
         val kernelMatrise:Matrise = mat.lagKernelVertikalLinje()
 
         //DA
-        assertThat(kernelMatrise.storrelse()).isEqualTo(Pair<Int,Int>(2,2))
+        assertThat(kernelMatrise.storrelse()).isEqualTo(Pair<Int,Int>(3,3))
+        assertThat(kernelMatrise.hentVerdi(0,1)).isEqualTo(1.0)
+        assertThat(kernelMatrise.hentVerdi(1,1)).isEqualTo(1.0)
+        assertThat(kernelMatrise.hentVerdi(2,1)).isEqualTo(1.0)
     }
 
     @Test
