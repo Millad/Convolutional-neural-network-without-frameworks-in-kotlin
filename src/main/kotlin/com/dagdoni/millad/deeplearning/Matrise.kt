@@ -103,7 +103,6 @@ class Matrise() {
             }
 
         }
-        println(matObject.dump())
         return Matrise(matObject)
     }
 
