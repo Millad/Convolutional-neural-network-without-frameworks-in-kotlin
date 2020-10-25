@@ -7,11 +7,13 @@ plugins {
 repositories {
     jcenter()
     mavenCentral()
-    maven("https://dl.bintray.com/mipt-npm/scientifik")
+    maven {
+        url = uri("https://dl.bintray.com/kyonifer/maven/")
+    }
 }
 
 dependencies {
-    api("kscience.kmath:kmath-core:0.1.4")
+    implementation("koma:core:0.11")
     implementation("org.openpnp:opencv:4.3.0-2")
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))

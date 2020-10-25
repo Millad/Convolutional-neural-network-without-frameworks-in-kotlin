@@ -13,7 +13,7 @@ class MatriseTest{
         // NAAR
         val resultatMatrise:Matrise = mat.trekk(mat2)
         //DA
-        assertThat(resultatMatrise.forstVerdi()).isEqualTo(2)
+        assertThat(resultatMatrise.forstVerdi()).isEqualTo(-2.0)
     }
 
     @Test
@@ -25,8 +25,8 @@ class MatriseTest{
         val talletEn:Matrise = mat.reluDerivant(mat)
         val talletNull:Matrise = mat.reluDerivant(mat2)
         //DA
-        assertThat(talletEn.forstVerdi()).isEqualTo(1)
-        assertThat(talletNull.forstVerdi()).isEqualTo(0)
+        assertThat(talletEn.forstVerdi()).isEqualTo(1.0)
+        assertThat(talletNull.forstVerdi()).isEqualTo(0.0)
     }
 
     @Test
@@ -118,20 +118,24 @@ class MatriseTest{
     @Test
     fun `gitt 1 px matrise, skal man kunne returnere første innholdet i matrisen`() {
         val mat:Matrise = Matrise(1,1)
-        assertThat(mat.somBitwiseNot().forstVerdi()).isEqualTo(1)
+        assertThat(mat.somBitwiseNot().forstVerdi()).isEqualTo(1.0)
     }
     @Test
     fun `gitt svart og hvit bilde, skal det returneres 1 (svart)  isteden for 255 og 0 (hvit) isteden for 1 som en bitwise_not operasjon`() {
         val mat:Matrise = Matrise(1,1)
         assertThat(mat.somBitwiseNot().erTom()).isFalse()
-        assertThat(mat.type()).isEqualTo("CV_8UC1")
     }
 
+    @Test
+    fun `skal kunne lage tilfeldige vekter`(){
+        val matrise = Matrise(3,3)
+        assertThat(matrise.tilfeldigeVekter().erTom()).isFalse()
+    }
     @Test
     fun `skal kunne lage en tom matrise`(){
         val matrise = Matrise()
         assertThat(matrise.erTom()).isTrue()
-        assertThat(matrise.somBitwiseNot().forstVerdi()).isEqualTo(0)
+        assertThat(matrise.somBitwiseNot().forstVerdi()).isEqualTo(0.0)
     }
     @Test
     fun `skal kunne returnere størrelse på matrisen`(){
