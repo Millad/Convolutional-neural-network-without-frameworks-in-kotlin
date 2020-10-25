@@ -15,7 +15,7 @@ class AppTest {
 
         // NAAR
         every { bilde.somMatrise() } returns Matrise(3,3)
-        val matrise: Matrise = app.hentMatriseFraBildet()
+        val matrise: Matrise = app.hentBildeMatrise()
 
         //DA
         assertThat(matrise.erTom()).isFalse()
@@ -26,7 +26,7 @@ class AppTest {
         val app = App(Bilde("feil navn"))
 
         // NAAR
-        val matrise: Matrise = app.hentMatriseFraBildet()
+        val matrise: Matrise = app.hentBildeMatrise()
 
         //DA
         assertThat(matrise.erTom()).isTrue()

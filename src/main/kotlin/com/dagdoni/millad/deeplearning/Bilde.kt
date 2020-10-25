@@ -17,6 +17,4 @@ class Bilde(val navnPaBilde: String) {
         return Matrise(Imgcodecs.imread(File(url.toURI()).toString(),CvType.CV_8UC1)).somBitwiseNot()
     }
 
-
-
 }

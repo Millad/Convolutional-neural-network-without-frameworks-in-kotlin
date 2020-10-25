@@ -1,15 +1,17 @@
 plugins {
+    id("java")
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
-
     application
 }
 
 repositories {
     jcenter()
     mavenCentral()
+    maven("https://dl.bintray.com/mipt-npm/scientifik")
 }
 
 dependencies {
+    api("kscience.kmath:kmath-core:0.1.4")
     implementation("org.openpnp:opencv:4.3.0-2")
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
@@ -28,6 +30,7 @@ dependencies {
 application {
     mainClassName = "Convolutional.neural.network.without.frameworks.in.kotlin.AppKt"
 }
+
 
 tasks {
     test {

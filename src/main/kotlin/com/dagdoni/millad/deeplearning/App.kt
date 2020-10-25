@@ -1,38 +1,35 @@
 package com.dagdoni.millad.deeplearning
 
+import kotlin.math.pow
+
 class App(val bilde: Bilde) {
 
-    //TODO : TEST MEG
-    fun conv(matrise:Matrise, kernel: Matrise, storrelsePaConvOperasjon:Int):ArrayList<DoubleArray>{
-        val lag_0_input: ArrayList<DoubleArray> = ArrayList<DoubleArray>()
-        (0 until storrelsePaConvOperasjon).forEach{i ->
-            (0 until storrelsePaConvOperasjon).forEach{ j ->
-                val lag_0:Matrise = matrise.hentVerdi(i,i+7,j,j+7)
-                val lag_1 = lag_0.multipliser(kernel)
-                val lag_1_sum = lag_1.sum()
-                println(lag_1_sum.joinToString())
-                lag_0_input.add(lag_1_sum)
-            }
-        }
-        return lag_0_input
-    }
-
-    fun hentMatriseFraBildet(): Matrise {
+    fun hentBildeMatrise(): Matrise {
         return bilde.somMatrise()
     }
 }
 fun main(args: Array<String>) {
     val app = App(Bilde("talletEn.png"))
-    val matriseAvBilde: Matrise = app.hentMatriseFraBildet()
-    val vertikalKernel:Matrise = Matrise().hentMatriseMedVertikalKernel(7,7)
-    val vekter:Matrise = Matrise().tilfeldigeVekter()
+    val bildeMatrise: Matrise = app.hentBildeMatrise()
+    val maalet = 1
+    val alpha = 0.4
+
+    val lag_1 = bildeMatrise.conv(7,3)
+    var vekter:Matrise = Matrise(lag_1.storrelse()).tilfeldigeVekter()
+
+    (0 until 10).forEach {
+        // Fremoverforplantning
+        val lag_2 = lag_1.relu(lag_1.dot(vekter))
+
+        //cost
+        val feil = (lag_2 - maalet).pow(2)
+
+        //bakoverforplantning
+       val lag_2_derivant = lag_1.reluDerivant(lag_1).multipliser((lag_2 - maalet))
+        vekter = vekter.trekk(lag_2_derivant.multipliser(alpha))
 
 
-    val lag_1 = app.conv(matriseAvBilde,vertikalKernel,3)
+        println("${it} : ${feil}")
 
-    val lag_2 = "relu"
-
-    print(lag_1)
-
-  //  println(matriseAvBilde)
+    }
 }
