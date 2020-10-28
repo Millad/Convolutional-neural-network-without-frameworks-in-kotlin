@@ -1,9 +1,25 @@
 package com.dagdoni.millad.deeplearning
 
+import koma.extensions.get
+import koma.matrix.Matrix
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class MatriseTest{
+
+
+    @Test
+    fun `skal kunne opprette riktig resultat conv operasjon`(){
+        // GITT
+        val mat:Matrise = Matrise(9,9)
+
+        // NAAR
+        val matrixFraConvOperasjon:Matrix<Double> = mat.conv(3,mat.hentHorizontalKernel(3))
+
+        //DA
+        assertThat(matrixFraConvOperasjon.numRows()).isEqualTo(3)
+        assertThat(matrixFraConvOperasjon.numCols()).isEqualTo(1)
+    }
 
     @Test
     fun `skal kunne trekke fra to ulike matriser`(){
@@ -19,14 +35,14 @@ class MatriseTest{
     @Test
     fun `skal kun returnere 1 om tall er storre enn 0 ellers returner 0 for gitt matrise`(){
         // GITT
-        val mat:Matrise = Matrise(1,1,1.0)
-        val mat2:Matrise = Matrise(1,1,-2.0)
+        val mat:Matrix<Double> = Matrise(1,1,1.0).matrise()
+        val mat2:Matrix<Double>  = Matrise(1,1,-2.0).matrise()
         // NAAR
-        val talletEn:Matrise = mat.reluDerivant(mat)
-        val talletNull:Matrise = mat.reluDerivant(mat2)
+        val talletEn:Matrix<Double> = Matrise().reluDerivant(mat)
+        val talletNull:Matrix<Double> = Matrise().reluDerivant(mat2)
         //DA
-        assertThat(talletEn.forstVerdi()).isEqualTo(1.0)
-        assertThat(talletNull.forstVerdi()).isEqualTo(0.0)
+        assertThat(talletEn.get(0,0)).isEqualTo(1.0)
+        assertThat(talletNull.get(0,0)).isEqualTo(0.0)
     }
 
     @Test
@@ -56,48 +72,21 @@ class MatriseTest{
     }
 
     @Test
-    fun `skal kunne opprette riktig resultat conv operasjon`(){
-        // GITT
-        val mat:Matrise = Matrise(9,9)
-
-        // NAAR
-        val sumFraConvOperasjon:Matrise = mat.conv(7,3)
-
-        //DA
-        assertThat(sumFraConvOperasjon.erTom()).isFalse()
-        assertThat(sumFraConvOperasjon.storrelse()).isEqualTo(Pair(3,3))
-    }
-
-    @Test
-    fun `skal ikke kunne generere  matrise med tilferldig vekter om matrisen er tom`(){
-        val matrise = Matrise()
-        assertThat(matrise.hentForsteVerdi(0,0)).isEqualTo(0.0)
-        matrise.tilfeldigeVekter()
-        assertThat(matrise.erTom()).isTrue()
-    }
-
-    @Test
-    fun `skal kunne hente hele verdi`(){
-        val matrise = Matrise(3,3)
-        assertThat(matrise.hentVerdi(0,3,0,3).storrelse()).isEqualTo(matrise.storrelse())
-    }
-    @Test
     fun `skal kunne opprette et kernel og at kernal har en horizontal linje med tallet 1 omringet ellers med 0`(){
         // GITT
         val mat:Matrise = Matrise(3,3)
 
         // NAAR
-        val kernelMatrise:Matrise = mat.hentMatriseMedHorizontalKernel(3,3)
+        val kernelMatrise:Matrix<Double> = mat.hentHorizontalKernel(3)
 
         //DA
-        assertThat(kernelMatrise.storrelse()).isEqualTo(Pair<Int,Int>(3,3))
-        assertThat(kernelMatrise.hentForsteVerdi(0,0)).isEqualTo(0.0)
-        assertThat(kernelMatrise.hentForsteVerdi(1,2)).isEqualTo(1.0)
-        assertThat(kernelMatrise.hentForsteVerdi(1,0)).isEqualTo(1.0)
-        assertThat(kernelMatrise.hentForsteVerdi(1,1)).isEqualTo(1.0)
-        assertThat(kernelMatrise.hentForsteVerdi(2,1)).isEqualTo(0.0)
-        assertThat(kernelMatrise.hentForsteVerdi(2,2)).isEqualTo(0.0)
-        assertThat(kernelMatrise.hentForsteVerdi(2,0)).isEqualTo(0.0)
+        assertThat(kernelMatrise.get(0,0)).isEqualTo(0.0)
+        assertThat(kernelMatrise.get(1,2)).isEqualTo(1.0)
+        assertThat(kernelMatrise.get(1,0)).isEqualTo(1.0)
+        assertThat(kernelMatrise.get(1,1)).isEqualTo(1.0)
+        assertThat(kernelMatrise.get(2,1)).isEqualTo(0.0)
+        assertThat(kernelMatrise.get(2,2)).isEqualTo(0.0)
+        assertThat(kernelMatrise.get(2,0)).isEqualTo(0.0)
     }
 
     @Test
@@ -106,37 +95,15 @@ class MatriseTest{
         val mat:Matrise = Matrise(3,3)
 
         // NAAR
-        val kernelMatrise:Matrise = mat.hentVertikalKernel(3,3)
+        val kernelMatrise:Matrix<Double> = mat.hentVertikalKernel(3)
 
         //DA
-        assertThat(kernelMatrise.storrelse()).isEqualTo(Pair<Int,Int>(3,3))
-        assertThat(kernelMatrise.hentForsteVerdi(0,1)).isEqualTo(1.0)
-        assertThat(kernelMatrise.hentForsteVerdi(1,1)).isEqualTo(1.0)
-        assertThat(kernelMatrise.hentForsteVerdi(2,1)).isEqualTo(1.0)
+        assertThat(kernelMatrise.get(0,1)).isEqualTo(1.0)
+        assertThat(kernelMatrise.get(1,1)).isEqualTo(1.0)
+        assertThat(kernelMatrise.get(2,1)).isEqualTo(1.0)
     }
 
-    @Test
-    fun `gitt 1 px matrise, skal man kunne returnere første innholdet i matrisen`() {
-        val mat:Matrise = Matrise(1,1)
-        assertThat(mat.somBitwiseNot().forstVerdi()).isEqualTo(1.0)
-    }
-    @Test
-    fun `gitt svart og hvit bilde, skal det returneres 1 (svart)  isteden for 255 og 0 (hvit) isteden for 1 som en bitwise_not operasjon`() {
-        val mat:Matrise = Matrise(1,1)
-        assertThat(mat.somBitwiseNot().erTom()).isFalse()
-    }
 
-    @Test
-    fun `skal kunne lage tilfeldige vekter`(){
-        val matrise = Matrise(3,3)
-        assertThat(matrise.tilfeldigeVekter().erTom()).isFalse()
-    }
-    @Test
-    fun `skal kunne lage en tom matrise`(){
-        val matrise = Matrise()
-        assertThat(matrise.erTom()).isTrue()
-        assertThat(matrise.somBitwiseNot().forstVerdi()).isEqualTo(0.0)
-    }
     @Test
     fun `skal kunne returnere størrelse på matrisen`(){
         val matrise = Matrise(1,1)

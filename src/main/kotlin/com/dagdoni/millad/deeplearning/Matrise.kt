@@ -1,19 +1,14 @@
 package com.dagdoni.millad.deeplearning
 
-import koma.extensions.emul
 import koma.extensions.get
 import koma.extensions.set
 import koma.eye
-import koma.mat
 import nu.pattern.OpenCV
-import org.opencv.core.Core
 import org.opencv.core.CvType
 import org.opencv.core.*
 import koma.matrix.Matrix
-import koma.matrix.MatrixType
 import koma.matrix.MatrixTypes
 import koma.rand
-import kotlin.random.Random
 
 class Matrise() {
 
@@ -22,6 +17,7 @@ class Matrise() {
 
     constructor(mat:Mat):this(mat.rows(),mat.cols()){
         bildeMatrise = mat
+        genererMatrixFrabildet()
     }
 
     constructor(rad: Int, kolonne: Int, verdi:Double):this(rad,kolonne){
@@ -29,7 +25,7 @@ class Matrise() {
         matrix.set(0,0,verdi)
         bildeMatrise = Mat.eye(rad,kolonne,CvType.CV_8UC1)
     }
-    constructor(storrelse:Pair<Int,Int>):this(storrelse.first,storrelse.second)
+    constructor(kernelStorrelse: Int):this(kernelStorrelse,kernelStorrelse)
     constructor(rad:Int,kolonne:Int):this(){
         matrix = eye(rad,kolonne)
         bildeMatrise = Mat.eye(rad,kolonne,CvType.CV_8UC1)
@@ -50,10 +46,6 @@ class Matrise() {
         return Matrise(this.matrix.minus(matrise2.matrix))
     }
 
-    fun dot(matrise: Matrise):Double{
-        return (this.matrix emul matrix).get(0)
-    }
-
     fun relu(x:Double):Double{
         if(x > 0.0) return x
         return 0.0
@@ -64,50 +56,43 @@ class Matrise() {
         return 0.0
     }
 
-    fun reluDerivant(matrise: Matrise):Matrise{
-        val kopi:Matrix<Double> = matrise.matrix
-        val storrelse = matrise.storrelse()
-        (0 until storrelse.first).forEach {rad ->
-            (0 until storrelse.second).forEach { kolonne ->
-                val derivertReluVerdi = reluDerivant(matrise.matrix.get(rad,kolonne))
+    fun reluDerivant(matrise: Matrix<Double>):Matrix<Double>{
+        val kopi:Matrix<Double> = matrise.copy()
+        (0 until kopi.numRows()).forEach {rad ->
+            (0 until kopi.numCols()).forEach { kolonne ->
+                val derivertReluVerdi = reluDerivant(matrise.get(rad,kolonne))
                 kopi.set(rad,kolonne,derivertReluVerdi)
             }
         }
-        return Matrise(kopi)
+        return kopi
     }
 
-    fun conv(kernelStorrelse: Int, storrelsePaConvOperasjon:Int):Matrise{
-        val lag_0_input:Matrix<Double> = eye(storrelsePaConvOperasjon,storrelsePaConvOperasjon)
-        (0 until storrelsePaConvOperasjon).forEach{i ->
-            (0 until storrelsePaConvOperasjon).forEach{ j ->
-                val lag_0:Matrise = this.hentVerdi(i,i+7,j,j+7)
-                val lag_0_multiplisert_med_kernel = lag_0.multipliser(Matrise().hentVertikalKernel(kernelStorrelse,kernelStorrelse))
-                val lag_1_sum_verdi = lag_0_multiplisert_med_kernel.sum()
-                lag_0_input.set(i,j, lag_1_sum_verdi)
+    fun conv(kernelStorrelse: Int, kernel:Matrix<Double>):Matrix<Double>{
+        val lag_0_input:Matrix<Double> = eye(kernelStorrelse,1)
+        (0 until kernelStorrelse).forEach{i ->
+            (0 until kernelStorrelse).forEach{ j ->
+                val lag_0: Matrix<Double>  = this.hentMatriseVerdiFraBilde(i,j, kernelStorrelse)
+                val lag_0_multiplisert_med_kernel =  kernel * lag_0
+                val lag_1_sum_verdi = lag_0_multiplisert_med_kernel.elementSum()
+                lag_0_input.set(i,0, lag_1_sum_verdi)
             }
         }
-        return Matrise(lag_0_input)
+        return lag_0_input
     }
 
-    fun sum(): Double {
-        return matrix.elementSum()
+    fun hentMatriseVerdiFraBilde(rad:Int, kol:Int,kernelStorrelse: Int):  Matrix<Double>  {
+        val mat:Matrix<Double> = eye(kernelStorrelse,kernelStorrelse)
+        (rad until kernelStorrelse).forEach { i->
+            (kol until kernelStorrelse).forEach { j->
+                mat.set(rad, kol,matrise().get(i, j))
+            }
+        }
+        return mat
     }
 
-    fun multipliser(matrise: Matrise):Matrise{
-        return Matrise(this.matrix * matrix)
-    }
-
-    fun multipliser(scalarVerdi: Double):Matrise{
-        return Matrise(this.matrix * (this.matrix * scalarVerdi))
-    }
-
-    fun hentMat():Matrix<Double>{
-        return matrix;
-    }
-
-    fun tilfeldigeVekter():Matrise{
-        if(erTom()) return this
-        return Matrise(rand(storrelse().first,storrelse().second, MatrixTypes.DoubleType)*((Math.random() * 00.1) + 0.001))
+    fun tilfeldigeVekter():Matrix<Double>{
+        if(erTom()) return eye(storrelse().first,storrelse().second)
+        return rand(storrelse().first,1, MatrixTypes.DoubleType)
     }
 
     fun erTom():Boolean{
@@ -119,17 +104,13 @@ class Matrise() {
         return matrix.get(rad,kol)
     }
 
-    fun hentVerdi(radStart:Int,radSlutt:Int, kolStart:Int, kolSlutt:Int): Matrise {
-        val radRange = IntRange(radStart,radSlutt-1)
-        val kolonneRange = IntRange(kolStart,kolSlutt-1)
-        return Matrise(matrix.get(radRange,kolonneRange))
-    }
+
 
     fun storrelse():Pair<Int,Int>{
         return Pair(matrix.numRows(),matrix.numCols())
     }
 
-    fun somBitwiseNot(): Matrise {
+    fun genererMatrixFrabildet() {
         val endeligMatrise = Mat(bildeMatrise.rows(),bildeMatrise.cols(),bildeMatrise.type())
         Core.bitwise_not(bildeMatrise,endeligMatrise)
         val nyttBildeMatrise = Mat(endeligMatrise.rows(),endeligMatrise.cols(),endeligMatrise.type())
@@ -143,22 +124,16 @@ class Matrise() {
             }
         }
 
-        return Matrise(mat)
+        this.matrix = mat
     }
 
-    fun toMatrix():Matrise{
-        val mat:Matrix<Double> = eye(bildeMatrise.rows(),bildeMatrise.cols())
 
-        (0 until bildeMatrise.rows()).forEach {rad ->
-            (0 until bildeMatrise.cols()).forEach { kolonne ->
-                mat.set(rad,kolonne,bildeMatrise.get(rad,kolonne).first())
-            }
-        }
-        return Matrise(mat);
+    fun matrise():Matrix<Double>{
+        return matrix
     }
 
     override fun toString():String{
-        return matrix.repr()
+        return matrise().repr()
     }
 
     fun forstVerdi(): Double {
@@ -166,11 +141,11 @@ class Matrise() {
         return matrix.get(0,0)
     }
 
-    private fun hentVertikalKernal(antallRader:Int, antallKolonner: Int): Array<DoubleArray> {
+    private fun hentVertikalKernal(kernelStorrelse:Int): Array<DoubleArray> {
         val hovedKernel: ArrayList<DoubleArray> = ArrayList()
-        repeat(antallRader) {
-            val doubleArray = DoubleArray(antallKolonner)
-            repeat(antallKolonner) {
+        repeat(kernelStorrelse) {
+            val doubleArray = DoubleArray(kernelStorrelse)
+            repeat(kernelStorrelse) {
                 doubleArray[it] = 0.0
             }
             doubleArray[doubleArray.size / 2] = 1.0
@@ -180,16 +155,16 @@ class Matrise() {
         return hovedKernel.toTypedArray()
     }
 
-    private fun hentHorizontalKernal(antallRader:Int, antallKolonner: Int): Array<DoubleArray> {
+    private fun hentHorizontalKernal(kernelStorrelse: Int): Array<DoubleArray> {
         val hovedKernel: ArrayList<DoubleArray> = ArrayList()
-        repeat(antallRader) {
-            val doubleArray = DoubleArray(antallKolonner)
+        repeat(kernelStorrelse) {
+            val doubleArray = DoubleArray(kernelStorrelse)
             var radVerdi = 0.0
-            if(it == (antallKolonner / 2)){
+            if(it == (kernelStorrelse / 2)){
                 radVerdi = 1.0
             }
 
-            repeat(antallKolonner) {
+            repeat(kernelStorrelse) {
                 doubleArray[it] = radVerdi
             }
             hovedKernel.add(doubleArray)
@@ -198,22 +173,24 @@ class Matrise() {
         return hovedKernel.toTypedArray()
     }
 
-    fun hentMatriseMedHorizontalKernel(rader:Int, kolonner: Int): Matrise {
-        return tilMatrise(rader, kolonner, hentHorizontalKernal(rader,kolonner))
+    fun hentHorizontalKernel(kernelStorrelse: Int):  Matrix<Double>  {
+        return tilKernelMatrise(kernelStorrelse, hentHorizontalKernal(kernelStorrelse))
     }
 
-    fun hentVertikalKernel(rader:Int, kolonner: Int): Matrise {
-        return tilMatrise(rader, kolonner, hentVertikalKernal(rader,kolonner))
+    fun hentVertikalKernel(kernelStorrelse: Int):  Matrix<Double>  {
+        return tilKernelMatrise(kernelStorrelse, hentVertikalKernal(kernelStorrelse))
     }
 
-    private fun tilMatrise(rader: Int, kolonner: Int, otherArray: Array<DoubleArray>): Matrise {
-        val matObject = eye(rader, kolonner)
-        (0 until rader).forEach { kol ->
-            (0 until kolonner).forEach { ra ->
+    private fun tilKernelMatrise(kernelStorrelse: Int, otherArray: Array<DoubleArray>): Matrix<Double> {
+        val matObject = eye(kernelStorrelse
+                , kernelStorrelse)
+        (0 until kernelStorrelse).forEach { kol ->
+            (0 until kernelStorrelse).forEach { ra ->
                 matObject.set(ra, kol, otherArray[ra][kol])
             }
 
         }
-        return Matrise(matObject)
+        return matObject
     }
+
 }
