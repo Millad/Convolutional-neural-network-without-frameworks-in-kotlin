@@ -46,7 +46,7 @@ class MatriseTest{
                                             0,1,1,0]
 
         // NÅR
-        val matrixFraConvOperasjon:Matrix<Double> = Matrise(mat).conv(2,Matrise().hentVertikalKernel(2))
+        val matrixFraConvOperasjon:Matrix<Double> = Matrise(mat).conv(Matrise().hentVertikalKernel(2))
 
         // SÅ
 
@@ -63,7 +63,7 @@ class MatriseTest{
                                             0,1,1,0]
 
         // NÅR
-        val matrixFraConvOperasjon:Matrix<Double> = Matrise(mat).conv(2,Matrise().hentHorizontalKernel(2))
+        val matrixFraConvOperasjon:Matrix<Double> = Matrise(mat).conv(Matrise().hentHorizontalKernel(2))
 
         // SÅ
 

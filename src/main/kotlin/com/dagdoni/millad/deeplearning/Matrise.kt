@@ -68,8 +68,8 @@ class Matrise() {
         return kopi
     }
 
-    fun conv(kernelStorrelse: Int, kernel:Matrix<Double>):Matrix<Double>{
-
+    fun conv(kernel:Matrix<Double>):Matrix<Double>{
+        val kernelStorrelse = kernel.numRows()
         val lag_0_bilde_split_kernel_storrelser:  ArrayList<Matrix<Double>>  = hentMatriseStriveForKernel(kernelStorrelse)
         val lag_2_summeringer = eye(1,lag_0_bilde_split_kernel_storrelser.size)
 

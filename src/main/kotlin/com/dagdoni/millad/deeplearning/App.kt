@@ -23,7 +23,7 @@ class App {
             (0 until 135).forEach {
 
                 // Fremoverforplantning
-                val lag_1 = vertikalBildeMatrise.conv(kernelStorrelse, Matrise().hentVertikalKernel(kernelStorrelse))
+                val lag_1 = vertikalBildeMatrise.conv(Matrise().hentVertikalKernel(kernelStorrelse))
                 val lag_2: Double = Matrise().relu(dot(lag_1, vekter))
 
                 //cost
@@ -38,14 +38,14 @@ class App {
 
             println("Verifisering :::::::::::::::::::::::::::::::::")
             // Verifiser riktig bildet
-            val v_lag_1 = vertikalBildeMatrise.conv(kernelStorrelse, Matrise().hentVertikalKernel(kernelStorrelse))
+            val v_lag_1 = vertikalBildeMatrise.conv(Matrise().hentVertikalKernel(kernelStorrelse))
             val v_lag_2 = Matrise().relu(dot(v_lag_1, vekter))
             val feil_prosent_gitt_riktig_bilde = (v_lag_2 - maalet).pow(2)
             println("Feil for riktig bilde    : ${feil_prosent_gitt_riktig_bilde}")
 
             // Verifiser feil bilde med høy error
             val horisontalBilde = Bilde("horizontalLinje.png")
-            val f_lag_1 = horisontalBilde.somMatrise().conv(kernelStorrelse, Matrise().hentHorizontalKernel(kernelStorrelse))
+            val f_lag_1 = horisontalBilde.somMatrise().conv(Matrise().hentHorizontalKernel(kernelStorrelse))
             val f_lag_2 = Matrise().relu(dot(f_lag_1, vekter))
             val feil_prosent_gitt_feil_bilde = (f_lag_2 - maalet).pow(2)
             println("Feil for helt annet bilde: ${feil_prosent_gitt_feil_bilde}")
