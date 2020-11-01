@@ -32,7 +32,6 @@ class Matrise() {
         bildeMatrise = Mat.eye(rad,kolonne,CvType.CV_8UC1)
     }
 
-
     constructor(matrix: Matrix<Double>):this(){
        this.matrix = matrix
     }
@@ -42,7 +41,6 @@ class Matrise() {
         matrix = eye(0)
         bildeMatrise = Mat.eye(0,0,CvType.CV_8UC1)
     }
-
 
     fun conv(kernel:Matrix<Double>):Matrix<Double>{
         val kernelStorrelse = kernel.numRows()
@@ -81,7 +79,7 @@ class Matrise() {
         return Pair(matrix.numRows(),matrix.numCols())
     }
 
-    fun genererMatrixFrabildet() {
+    private fun genererMatrixFrabildet() {
         val endeligMatrise = Mat(bildeMatrise.rows(),bildeMatrise.cols(),bildeMatrise.type())
         Core.bitwise_not(bildeMatrise,endeligMatrise)
         val nyttBildeMatrise = Mat(endeligMatrise.rows(),endeligMatrise.cols(),endeligMatrise.type())
@@ -105,12 +103,6 @@ class Matrise() {
     override fun toString():String{
         return matrise().repr()
     }
-
-    fun forstVerdi(): Double {
-        if(erTom()) return 0.0
-        return matrix.get(0,0)
-    }
-
 
     companion object Matrise{
         fun relu(x:Double):Double{
@@ -165,12 +157,15 @@ class Matrise() {
 
             return hovedKernel.toTypedArray()
         }
+
         fun hentHorizontalKernel(kernelStorrelse: Int):  Matrix<Double>  {
             return tilKernelMatrise(kernelStorrelse, hentHorizontalKernal(kernelStorrelse))
         }
+
         fun hentVertikalKernel(kernelStorrelse: Int):  Matrix<Double>  {
             return tilKernelMatrise(kernelStorrelse, hentVertikalKernal(kernelStorrelse))
         }
+
         private fun tilKernelMatrise(kernelStorrelse: Int, otherArray: Array<DoubleArray>): Matrix<Double> {
             val matObject = eye(kernelStorrelse
                     , kernelStorrelse)
@@ -184,8 +179,4 @@ class Matrise() {
         }
 
     }
-
-
-
-
 }
