@@ -101,11 +101,6 @@ class Matrise() {
          return this.matrix.to2DArray().isEmpty()
     }
 
-    fun hentForsteVerdi(rad:Int, kol:Int):Double{
-        if(erTom()) return 0.0
-        return matrix.get(rad,kol)
-    }
-
     fun storrelse():Pair<Int,Int>{
         return Pair(matrix.numRows(),matrix.numCols())
     }

@@ -19,11 +19,4 @@ class Bilde(val navnPaBilde: String) {
         return Matrise(mat)
     }
 
-    fun matrix(){
-        val url: URL = javaClass.classLoader.getResource(navnPaBilde)
-        val mat: Mat = Imgcodecs.imread(File(url.toURI()).toString(),CvType.CV_8UC1)
-        println(Matrise(mat).matrise().repr())
-
-    }
-
 }
