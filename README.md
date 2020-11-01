@@ -1,3 +1,3 @@
-# Convolutional neural network without frameworks in Kotlin
+# Bildegjennkjenning uten rammeverk med kotlin
 Convolutional neural network without frameworks in kotlin
 
