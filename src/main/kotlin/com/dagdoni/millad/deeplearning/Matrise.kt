@@ -106,8 +106,6 @@ class Matrise() {
         return matrix.get(rad,kol)
     }
 
-
-
     fun storrelse():Pair<Int,Int>{
         return Pair(matrix.numRows(),matrix.numCols())
     }
@@ -128,7 +126,6 @@ class Matrise() {
 
         this.matrix = mat
     }
-
 
     fun matrise():Matrix<Double>{
         return matrix
