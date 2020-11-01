@@ -32,9 +32,9 @@ class MatriseTest{
                                                   4,4]
 
         assertMatrixEquals(forventet1,matrixFraConvOperasjon.first())
-        assertMatrixEquals(forventet2,matrixFraConvOperasjon.get(1))
-        assertMatrixEquals(forventet3,matrixFraConvOperasjon.get(2))
-        assertMatrixEquals(forventet4,matrixFraConvOperasjon.get(3))
+        assertMatrixEquals(forventet2, matrixFraConvOperasjon[1])
+        assertMatrixEquals(forventet3, matrixFraConvOperasjon[2])
+        assertMatrixEquals(forventet4, matrixFraConvOperasjon[3])
     }
 
     @Test
@@ -113,9 +113,6 @@ class MatriseTest{
     @Test
     fun `skal kunne opprette et kernel og at kernal har en horizontal linje med tallet 1 omringet ellers med 0`(){
         // GITT
-        val mat:Matrise = Matrise(3,3)
-
-        // NÅR
         val kernelMatrise:Matrix<Double> = Matrise.hentHorizontalKernel(3)
 
         // SÅ
@@ -130,10 +127,8 @@ class MatriseTest{
 
     @Test
     fun `skal kunne opprette et kernel og at kernal har en vertikal linje med tallet 1 omringet ellers med 0`(){
-        // GITT
-        val mat:Matrise = Matrise(3,3)
 
-        // NÅR
+        //NÅR
         val kernelMatrise:Matrix<Double> = Matrise.hentVertikalKernel(3)
 
         // SÅ
