@@ -46,7 +46,7 @@ class MatriseTest{
                                             0,1,1,0]
 
         // NÅR
-        val matrixFraConvOperasjon:Matrix<Double> = Matrise(mat).conv(Matrise().hentVertikalKernel(2))
+        val matrixFraConvOperasjon:Matrix<Double> = Matrise(mat).conv(Matrise.hentVertikalKernel(2))
 
         // SÅ
 
@@ -63,23 +63,13 @@ class MatriseTest{
                                             0,1,1,0]
 
         // NÅR
-        val matrixFraConvOperasjon:Matrix<Double> = Matrise(mat).conv(Matrise().hentHorizontalKernel(2))
+        val matrixFraConvOperasjon:Matrix<Double> = Matrise(mat).conv(Matrise.hentHorizontalKernel(2))
 
         // SÅ
 
         assertThat(matrixFraConvOperasjon.get(0,0).absoluteValue).isEqualTo(4.0)
     }
 
-    @Test
-    fun `skal kunne trekke fra to ulike matriser`(){
-        // GITT
-        val mat:Matrise = Matrise(1,1,0.0)
-        val mat2:Matrise = Matrise(1,1,2.0)
-        // NÅR
-        val resultatMatrise:Matrise = mat.trekk(mat2)
-        // SÅ
-        assertThat(resultatMatrise.forstVerdi()).isEqualTo(-2.0)
-    }
 
     @Test
     fun `skal kun returnere 1 om tall er storre enn 0 ellers returner 0 for gitt matrise`(){
@@ -126,7 +116,7 @@ class MatriseTest{
         val mat:Matrise = Matrise(3,3)
 
         // NÅR
-        val kernelMatrise:Matrix<Double> = mat.hentHorizontalKernel(3)
+        val kernelMatrise:Matrix<Double> = Matrise.hentHorizontalKernel(3)
 
         // SÅ
         assertThat(kernelMatrise.get(0,0)).isEqualTo(0.0)
@@ -144,7 +134,7 @@ class MatriseTest{
         val mat:Matrise = Matrise(3,3)
 
         // NÅR
-        val kernelMatrise:Matrix<Double> = mat.hentVertikalKernel(3)
+        val kernelMatrise:Matrix<Double> = Matrise.hentVertikalKernel(3)
 
         // SÅ
         assertThat(kernelMatrise.get(0,1)).isEqualTo(1.0)

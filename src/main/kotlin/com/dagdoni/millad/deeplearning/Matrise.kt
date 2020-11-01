@@ -43,10 +43,6 @@ class Matrise() {
         bildeMatrise = Mat.eye(0,0,CvType.CV_8UC1)
     }
 
-    fun trekk(matrise2: Matrise):Matrise{
-        return Matrise(this.matrix.minus(matrise2.matrix))
-    }
-
     fun relu(x:Double):Double{
         if(x > 0.0) return x
         return 0.0
@@ -135,56 +131,60 @@ class Matrise() {
         return matrix.get(0,0)
     }
 
-    private fun hentVertikalKernal(kernelStorrelse:Int): Array<DoubleArray> {
-        val hovedKernel: ArrayList<DoubleArray> = ArrayList()
-        repeat(kernelStorrelse) {
-            val doubleArray = DoubleArray(kernelStorrelse)
+
+    companion object Matrise{
+        private fun hentVertikalKernal(kernelStorrelse:Int): Array<DoubleArray> {
+            val hovedKernel: ArrayList<DoubleArray> = ArrayList()
             repeat(kernelStorrelse) {
-                doubleArray[it] = 0.0
+                val doubleArray = DoubleArray(kernelStorrelse)
+                repeat(kernelStorrelse) {
+                    doubleArray[it] = 0.0
+                }
+                doubleArray[doubleArray.size / 2] = 1.0
+                hovedKernel.add(doubleArray)
             }
-            doubleArray[doubleArray.size / 2] = 1.0
-            hovedKernel.add(doubleArray)
+
+            return hovedKernel.toTypedArray()
         }
 
-        return hovedKernel.toTypedArray()
-    }
-
-    private fun hentHorizontalKernal(kernelStorrelse: Int): Array<DoubleArray> {
-        val hovedKernel: ArrayList<DoubleArray> = ArrayList()
-        repeat(kernelStorrelse) {
-            val doubleArray = DoubleArray(kernelStorrelse)
-            var radVerdi = 0.0
-            if(it == (kernelStorrelse / 2)){
-                radVerdi = 1.0
-            }
-
+        private fun hentHorizontalKernal(kernelStorrelse: Int): Array<DoubleArray> {
+            val hovedKernel: ArrayList<DoubleArray> = ArrayList()
             repeat(kernelStorrelse) {
-                doubleArray[it] = radVerdi
-            }
-            hovedKernel.add(doubleArray)
-        }
+                val doubleArray = DoubleArray(kernelStorrelse)
+                var radVerdi = 0.0
+                if(it == (kernelStorrelse / 2)){
+                    radVerdi = 1.0
+                }
 
-        return hovedKernel.toTypedArray()
-    }
-
-    fun hentHorizontalKernel(kernelStorrelse: Int):  Matrix<Double>  {
-        return tilKernelMatrise(kernelStorrelse, hentHorizontalKernal(kernelStorrelse))
-    }
-
-    fun hentVertikalKernel(kernelStorrelse: Int):  Matrix<Double>  {
-        return tilKernelMatrise(kernelStorrelse, hentVertikalKernal(kernelStorrelse))
-    }
-
-    private fun tilKernelMatrise(kernelStorrelse: Int, otherArray: Array<DoubleArray>): Matrix<Double> {
-        val matObject = eye(kernelStorrelse
-                , kernelStorrelse)
-        (0 until kernelStorrelse).forEach { kol ->
-            (0 until kernelStorrelse).forEach { ra ->
-                matObject.set(ra, kol, otherArray[ra][kol])
+                repeat(kernelStorrelse) {
+                    doubleArray[it] = radVerdi
+                }
+                hovedKernel.add(doubleArray)
             }
 
+            return hovedKernel.toTypedArray()
         }
-        return matObject
+        fun hentHorizontalKernel(kernelStorrelse: Int):  Matrix<Double>  {
+            return tilKernelMatrise(kernelStorrelse, hentHorizontalKernal(kernelStorrelse))
+        }
+        fun hentVertikalKernel(kernelStorrelse: Int):  Matrix<Double>  {
+            return tilKernelMatrise(kernelStorrelse, hentVertikalKernal(kernelStorrelse))
+        }
+        private fun tilKernelMatrise(kernelStorrelse: Int, otherArray: Array<DoubleArray>): Matrix<Double> {
+            val matObject = eye(kernelStorrelse
+                    , kernelStorrelse)
+            (0 until kernelStorrelse).forEach { kol ->
+                (0 until kernelStorrelse).forEach { ra ->
+                    matObject.set(ra, kol, otherArray[ra][kol])
+                }
+
+            }
+            return matObject
+        }
+
     }
+
+
+
 
 }
