@@ -6,9 +6,7 @@ import koma.matrix.Matrix
 import koma.pow
 
 
-class App {
-
-    companion object {
+object App {
         @JvmStatic
         fun main(args: Array<String>) {
             val vertikalBildeMatrise: Matrise = Bilde("vertikalLinje.png").somMatrise()
@@ -52,5 +50,4 @@ class App {
 
             println("Programslutt :::::::::::::::::::::::::::::::::")
         }
-    }
 }
