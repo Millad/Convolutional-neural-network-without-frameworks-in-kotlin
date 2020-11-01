@@ -30,7 +30,7 @@ dependencies {
 }
 
 application {
-    mainClassName = "Convolutional.neural.network.without.frameworks.in.kotlin.AppKt"
+    mainClass.set("com.dagdoni.millad.deeplearning.App")
 }
 
 
