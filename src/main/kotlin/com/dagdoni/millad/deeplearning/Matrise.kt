@@ -43,26 +43,6 @@ class Matrise() {
         bildeMatrise = Mat.eye(0,0,CvType.CV_8UC1)
     }
 
-    fun relu(x:Double):Double{
-        if(x > 0.0) return x
-        return 0.0
-    }
-
-    fun reluDerivant(x: Double): Double {
-        if(x > 0.0) return 1.0
-        return 0.0
-    }
-
-    fun reluDerivant(matrise: Matrix<Double>):Matrix<Double>{
-        val kopi:Matrix<Double> = matrise.copy()
-        (0 until kopi.numRows()).forEach {rad ->
-            (0 until kopi.numCols()).forEach { kolonne ->
-                val derivertReluVerdi = reluDerivant(matrise.get(rad,kolonne))
-                kopi.set(rad,kolonne,derivertReluVerdi)
-            }
-        }
-        return kopi
-    }
 
     fun conv(kernel:Matrix<Double>):Matrix<Double>{
         val kernelStorrelse = kernel.numRows()
@@ -133,6 +113,27 @@ class Matrise() {
 
 
     companion object Matrise{
+        fun relu(x:Double):Double{
+            if(x > 0.0) return x
+            return 0.0
+        }
+
+        fun reluDerivant(x: Double): Double {
+            if(x > 0.0) return 1.0
+            return 0.0
+        }
+
+        fun reluDerivant(matrise: Matrix<Double>):Matrix<Double>{
+            val kopi:Matrix<Double> = matrise.copy()
+            (0 until kopi.numRows()).forEach {rad ->
+                (0 until kopi.numCols()).forEach { kolonne ->
+                    val derivertReluVerdi = reluDerivant(matrise.get(rad,kolonne))
+                    kopi.set(rad,kolonne,derivertReluVerdi)
+                }
+            }
+            return kopi
+        }
+
         private fun hentVertikalKernal(kernelStorrelse:Int): Array<DoubleArray> {
             val hovedKernel: ArrayList<DoubleArray> = ArrayList()
             repeat(kernelStorrelse) {

@@ -77,8 +77,8 @@ class MatriseTest{
         val mat:Matrix<Double> = Matrise(1,1,1.0).matrise()
         val mat2:Matrix<Double>  = Matrise(1,1,-2.0).matrise()
         // NÅR
-        val talletEn:Matrix<Double> = Matrise().reluDerivant(mat)
-        val talletNull:Matrix<Double> = Matrise().reluDerivant(mat2)
+        val talletEn:Matrix<Double> = Matrise.reluDerivant(mat)
+        val talletNull:Matrix<Double> = Matrise.reluDerivant(mat2)
         // SÅ
         assertThat(talletEn.get(0,0)).isEqualTo(1.0)
         assertThat(talletNull.get(0,0)).isEqualTo(0.0)
@@ -87,11 +87,9 @@ class MatriseTest{
     @Test
     fun `skal kun returnere 1 om tall er storre enn 0 ellers returner 0`(){
         // GITT
-        val mat:Matrise = Matrise()
-
         // NÅR
-        val tallOver1:Double = mat.reluDerivant(2.5)
-        val tallUnder0:Double = mat.reluDerivant(-1.0)
+        val tallOver1:Double = Matrise.reluDerivant(2.5)
+        val tallUnder0:Double = Matrise.reluDerivant(-1.0)
         // SÅ
         assertThat(tallOver1).isEqualTo(1.0)
         assertThat(tallUnder0).isEqualTo(0.0)
@@ -100,11 +98,9 @@ class MatriseTest{
     @Test
     fun `skal kun returnere positive tall fra relu operasjon`(){
         // GITT
-        val mat:Matrise = Matrise(9,9)
-
-        // NÅR
-        val talletNull:Double = mat.relu(0.0)
-        val talletEn:Double = mat.relu(1.0)
+         // NÅR
+        val talletNull:Double = Matrise.relu(0.0)
+        val talletEn:Double = Matrise.relu(1.0)
         // SÅ
         assertThat(talletNull).isEqualTo(0.0)
         assertThat(talletEn).isEqualTo(1.0)
