@@ -17,14 +17,13 @@ object App {
             var vekter: Matrix<Double> = Matrise(vekterStorrelse).tilfeldigeVekter()
 
             println("Trening :::::::::::::::::::::::::::::::::")
-            // Trening
             (0 until 135).forEach {
 
                 // Fremoverforplantning
                 val lag_1 = vertikalBildeMatrise.conv(Matrise.hentVertikalKernel(kernelStorrelse))
                 val lag_2: Double = Matrise.relu(dot(lag_1, vekter))
 
-                //cost
+
                 val feil = (lag_2 - maal).pow(2)
 
                 //Bakoverforplantning
