@@ -11,8 +11,9 @@ fun main(args: Array<String>) {
     val maalet = 1
     val alpha = 0.004
     val kernelStorrelse = 3
+    val vekterStorrelse =  9
 
-    var vekter: Matrix<Double> = Matrise(9).tilfeldigeVekter()
+    var vekter: Matrix<Double> = Matrise(vekterStorrelse).tilfeldigeVekter()
 
 
     (0 until 135).forEach {
