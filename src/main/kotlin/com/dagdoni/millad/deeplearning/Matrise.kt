@@ -3,12 +3,13 @@ package com.dagdoni.millad.deeplearning
 import koma.extensions.get
 import koma.extensions.set
 import koma.eye
-import nu.pattern.OpenCV
-import org.opencv.core.CvType
-import org.opencv.core.*
 import koma.matrix.Matrix
 import koma.matrix.MatrixTypes
 import koma.rand
+import nu.pattern.OpenCV
+import org.opencv.core.Core
+import org.opencv.core.CvType
+import org.opencv.core.Mat
 
 class Matrise() {
 
@@ -68,31 +69,32 @@ class Matrise() {
     }
 
     fun conv(kernelStorrelse: Int, kernel:Matrix<Double>):Matrix<Double>{
-        val lag_0_input:Matrix<Double> = eye(kernelStorrelse,1)
-        (0 until kernelStorrelse).forEach{i ->
-            (0 until kernelStorrelse).forEach{ j ->
-                val lag_0: Matrix<Double>  = this.hentMatriseVerdiFraBilde(i,j, kernelStorrelse)
-                val lag_0_multiplisert_med_kernel =  kernel * lag_0
-                val lag_1_sum_verdi = lag_0_multiplisert_med_kernel.elementSum()
-                lag_0_input.set(i,0, lag_1_sum_verdi)
-            }
+
+        val lag_0_bilde_split_kernel_storrelser:  ArrayList<Matrix<Double>>  = hentMatriseStriveForKernel(kernelStorrelse)
+        val lag_2_summeringer = eye(1,lag_0_bilde_split_kernel_storrelser.size)
+
+        lag_0_bilde_split_kernel_storrelser.withIndex().forEach{(index,bildeMatrise) ->
+            val bildeDelProduktKernel = bildeMatrise *  kernel
+            lag_2_summeringer.set(0,index,bildeDelProduktKernel.elementSum())
         }
-        return lag_0_input
+        return lag_2_summeringer
     }
 
-    fun hentMatriseVerdiFraBilde(rad:Int, kol:Int,kernelStorrelse: Int):  Matrix<Double>  {
-        val mat:Matrix<Double> = eye(kernelStorrelse,kernelStorrelse)
-        (rad until kernelStorrelse).forEach { i->
-            (kol until kernelStorrelse).forEach { j->
-                mat.set(rad, kol,matrise().get(i, j))
+    fun hentMatriseStriveForKernel(kernelStorrelse: Int):  ArrayList<Matrix<Double>> {
+        val strideStorrelse = matrix.numCols() / kernelStorrelse
+        val matrixList:ArrayList<Matrix<Double>> = ArrayList()
+        for(strideDown in 0 until  matrix.numRows() step strideStorrelse){
+            for(strideRight in 0 until  matrix.numCols() step strideStorrelse){
+                val m = matrix.get(IntRange(strideDown, strideDown+1),IntRange(strideRight,strideRight+1))
+                matrixList.add(m)
             }
         }
-        return mat
+        return matrixList
     }
 
     fun tilfeldigeVekter():Matrix<Double>{
         if(erTom()) return eye(storrelse().first,storrelse().second)
-        return rand(storrelse().first,1, MatrixTypes.DoubleType)
+        return rand(1,storrelse().first, MatrixTypes.DoubleType)
     }
 
     fun erTom():Boolean{

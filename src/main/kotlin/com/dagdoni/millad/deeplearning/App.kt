@@ -1,21 +1,21 @@
 package com.dagdoni.millad.deeplearning
 
 import koma.dot
+import koma.extensions.times
 import koma.matrix.Matrix
 import koma.pow
-import koma.extensions.times
 
 fun main(args: Array<String>) {
     val bilde = Bilde("ver.png")
     val vertikalBilde: Matrise = bilde.somMatrise()
     val maalet = 1
     val alpha = 0.004
-    val kernelStorrelse = 9
+    val kernelStorrelse = 3
 
-    var vekter: Matrix<Double> = Matrise(kernelStorrelse).tilfeldigeVekter()
+    var vekter: Matrix<Double> = Matrise(9).tilfeldigeVekter()
 
 
-    (0 until 20).forEach {
+    (0 until 135).forEach {
 
         // Fremoverforplantning
         val lag_1 = vertikalBilde.conv(kernelStorrelse,Matrise().hentVertikalKernel(kernelStorrelse))

@@ -1,24 +1,73 @@
 package com.dagdoni.millad.deeplearning
 
+import koma.end
 import koma.extensions.get
 import koma.matrix.Matrix
+import koma.util.test.assertMatrixEquals
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import kotlin.math.absoluteValue
 
 class MatriseTest{
 
+    @Test
+    fun `skal kunne hente riktig verdier fra bildetmatrisen basert på liten kernel størrelse`(){
+        // GITT
+        val mat:Matrix<Double> =    koma.mat[1,1,2,2 end
+                                             1,1,2,2 end
+                                             3,3,4,4 end
+                                             3,3,4,4 ]
+
+        // NÅR
+        val matrixFraConvOperasjon = Matrise(mat).hentMatriseStriveForKernel(2)
+
+        // SÅ
+        val forventet1:Matrix<Double> =   koma.mat[1,1 end
+                                                  1,1]
+        val forventet2:Matrix<Double> =   koma.mat[2,2 end
+                                                  2,2]
+        val forventet3:Matrix<Double> =   koma.mat[3,3 end
+                                                   3,3]
+        val forventet4:Matrix<Double> =   koma.mat[4,4 end
+                                                  4,4]
+
+        assertMatrixEquals(forventet1,matrixFraConvOperasjon.first())
+        assertMatrixEquals(forventet2,matrixFraConvOperasjon.get(1))
+        assertMatrixEquals(forventet3,matrixFraConvOperasjon.get(2))
+        assertMatrixEquals(forventet4,matrixFraConvOperasjon.get(3))
+    }
 
     @Test
-    fun `skal kunne opprette riktig resultat conv operasjon`(){
+    fun `skal kunne opprette riktig resultat conv operasjon for vertikal ganger vertikal kernet`(){
         // GITT
-        val mat:Matrise = Matrise(9,9)
+        val mat:Matrix<Double> =    koma.mat[0,1,1,0 end
+                                            0,1,1,0 end
+                                            0,1,1,0 end
+                                            0,1,1,0]
 
-        // NAAR
-        val matrixFraConvOperasjon:Matrix<Double> = mat.conv(3,mat.hentHorizontalKernel(3))
+        // NÅR
+        val matrixFraConvOperasjon:Matrix<Double> = Matrise(mat).conv(2,Matrise().hentVertikalKernel(2))
 
-        //DA
-        assertThat(matrixFraConvOperasjon.numRows()).isEqualTo(3)
-        assertThat(matrixFraConvOperasjon.numCols()).isEqualTo(1)
+        // SÅ
+
+        assertThat(matrixFraConvOperasjon.get(0,0).absoluteValue).isEqualTo(2.0)
+    }
+
+
+    @Test
+    fun `skal kunne opprette riktig resultat conv operasjon for horisontal ganger vertikal kernet`(){
+        // GITT
+        val mat:Matrix<Double> =    koma.mat[0,1,1,0 end
+                                            0,1,1,0 end
+                                            0,1,1,0 end
+                                            0,1,1,0]
+
+        // NÅR
+        val matrixFraConvOperasjon:Matrix<Double> = Matrise(mat).conv(2,Matrise().hentHorizontalKernel(2))
+
+        // SÅ
+
+        assertThat(matrixFraConvOperasjon.get(0,0).absoluteValue).isEqualTo(4.0)
     }
 
     @Test
@@ -26,9 +75,9 @@ class MatriseTest{
         // GITT
         val mat:Matrise = Matrise(1,1,0.0)
         val mat2:Matrise = Matrise(1,1,2.0)
-        // NAAR
+        // NÅR
         val resultatMatrise:Matrise = mat.trekk(mat2)
-        //DA
+        // SÅ
         assertThat(resultatMatrise.forstVerdi()).isEqualTo(-2.0)
     }
 
@@ -37,10 +86,10 @@ class MatriseTest{
         // GITT
         val mat:Matrix<Double> = Matrise(1,1,1.0).matrise()
         val mat2:Matrix<Double>  = Matrise(1,1,-2.0).matrise()
-        // NAAR
+        // NÅR
         val talletEn:Matrix<Double> = Matrise().reluDerivant(mat)
         val talletNull:Matrix<Double> = Matrise().reluDerivant(mat2)
-        //DA
+        // SÅ
         assertThat(talletEn.get(0,0)).isEqualTo(1.0)
         assertThat(talletNull.get(0,0)).isEqualTo(0.0)
     }
@@ -50,10 +99,10 @@ class MatriseTest{
         // GITT
         val mat:Matrise = Matrise()
 
-        // NAAR
+        // NÅR
         val tallOver1:Double = mat.reluDerivant(2.5)
         val tallUnder0:Double = mat.reluDerivant(-1.0)
-        //DA
+        // SÅ
         assertThat(tallOver1).isEqualTo(1.0)
         assertThat(tallUnder0).isEqualTo(0.0)
     }
@@ -63,10 +112,10 @@ class MatriseTest{
         // GITT
         val mat:Matrise = Matrise(9,9)
 
-        // NAAR
+        // NÅR
         val talletNull:Double = mat.relu(0.0)
         val talletEn:Double = mat.relu(1.0)
-        //DA
+        // SÅ
         assertThat(talletNull).isEqualTo(0.0)
         assertThat(talletEn).isEqualTo(1.0)
     }
@@ -76,10 +125,10 @@ class MatriseTest{
         // GITT
         val mat:Matrise = Matrise(3,3)
 
-        // NAAR
+        // NÅR
         val kernelMatrise:Matrix<Double> = mat.hentHorizontalKernel(3)
 
-        //DA
+        // SÅ
         assertThat(kernelMatrise.get(0,0)).isEqualTo(0.0)
         assertThat(kernelMatrise.get(1,2)).isEqualTo(1.0)
         assertThat(kernelMatrise.get(1,0)).isEqualTo(1.0)
@@ -94,10 +143,10 @@ class MatriseTest{
         // GITT
         val mat:Matrise = Matrise(3,3)
 
-        // NAAR
+        // NÅR
         val kernelMatrise:Matrix<Double> = mat.hentVertikalKernel(3)
 
-        //DA
+        // SÅ
         assertThat(kernelMatrise.get(0,1)).isEqualTo(1.0)
         assertThat(kernelMatrise.get(1,1)).isEqualTo(1.0)
         assertThat(kernelMatrise.get(2,1)).isEqualTo(1.0)
