@@ -18,7 +18,9 @@ object App {
 
             println("Trening :::::::::::::::::::::::::::::::::")
             (0 until 135).forEach {
-
+                    
+                //Todo: ta ut og test alene uten tilfeldige vekter
+                    
                 // Fremoverforplantning
                 val lag_1 = vertikalBildeMatrise.conv(Matrise.hentVertikalKernel(kernelStorrelse))
                 val lag_2: Double = Matrise.relu(dot(lag_1, vekter))
