@@ -11,7 +11,7 @@ import kotlin.math.roundToInt
 class AppTest {
 
     @Test
-    fun skal_teste_trening_som_skal_gi_forventet_feil_prosent_er_lik_0_for_riktig_bilde_og_over_tallet_eller_1_for_feil_bilde() {
+    fun skal_teste_trening_svarer_0_for_riktig_bilde_og_over_tallet_1_for_feil_bilde() {
         val vertikalBildeMatrise = Matrise(Matrise.hentVertikalKernel(9))
         val maal = 1
         val kernelStorrelse = 3
