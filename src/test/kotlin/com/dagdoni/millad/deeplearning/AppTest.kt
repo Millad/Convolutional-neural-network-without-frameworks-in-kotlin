@@ -9,7 +9,7 @@ import kotlin.math.roundToInt
 class AppTest {
 
     @Test
-    fun run() {
+    fun skal_teste_opplæringsrunde_og_gir_forventet_feil_er_0() {
         val vertikalBildeMatrise = Matrise(Matrise.hentVertikalKernel(9))
         val maal = 1
         val kernelStorrelse = 3
