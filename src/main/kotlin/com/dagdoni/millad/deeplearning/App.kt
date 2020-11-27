@@ -15,13 +15,10 @@ object App {
             val kernelStorrelse = 3
             val vekterStorrelse = 9
             var vekter: Matrix<Double> = Matrise(vekterStorrelse).tilfeldigeVekter()
+            val antallTreningsrunder = 135
 
             println("Trening :::::::::::::::::::::::::::::::::")
-            (0 until 135).forEach {
-                val resultat = opplæringsrunde(vertikalBildeMatrise, kernelStorrelse, vekter, maal, alpha)
-                vekter = resultat.vekter
-                println("${it} : ${resultat.feil}")
-            }
+            vekter = trening(vertikalBildeMatrise, kernelStorrelse, vekter, maal, alpha,antallTreningsrunder ).vekterTrent
 
             println("Verifisering :::::::::::::::::::::::::::::::::")
             // Verifiser riktig bildet
@@ -40,19 +37,25 @@ object App {
             println("Programslutt :::::::::::::::::::::::::::::::::")
         }
 
-    fun opplæringsrunde(vertikalBildeMatrise: Matrise, kernelStorrelse: Int, vekter: Matrix<Double>, maal: Int, alpha: Double):OpplæringsrundeResultat {
-        // Fremoverforplantning
-        var vekterForEnOpplæringsrunde = vekter
-        val lag_1 = vertikalBildeMatrise.conv(Matrise.hentVertikalKernel(kernelStorrelse))
-        val lag_2: Double = Matrise.relu(dot(lag_1, vekterForEnOpplæringsrunde))
+    fun trening(vertikalBildeMatrise: Matrise, kernelStorrelse: Int, vekter: Matrix<Double>, maal: Int, alpha: Double, antallOpplæringsrunder:Int):TreningResultat {
 
-        val feilForEnOpplæringsrunde = (lag_2 - maal).pow(2)
+        var vekterForEnTreningsrunde = vekter
+        var feilForEnTreningssrunde = 0.0
+        (0 until antallOpplæringsrunder).forEach {
+            // Fremoverforplantning
+            val lag_1 = vertikalBildeMatrise.conv(Matrise.hentVertikalKernel(kernelStorrelse))
+            val lag_2: Double = Matrise.relu(dot(lag_1, vekterForEnTreningsrunde))
 
-        //Bakoverforplantning
-        val lag_2_derivant = (lag_2 - maal) * (Matrise.reluDerivant(lag_1))
-        vekterForEnOpplæringsrunde -= (alpha * lag_2_derivant)
-        return OpplæringsrundeResultat(feilForEnOpplæringsrunde, vekterForEnOpplæringsrunde)
+            feilForEnTreningssrunde = (lag_2 - maal).pow(2)
+
+            //Bakoverforplantning
+            val lag_2_derivant = (lag_2 - maal) * (Matrise.reluDerivant(lag_1))
+            vekterForEnTreningsrunde -= (alpha * lag_2_derivant)
+            println("${it} : ${feilForEnTreningssrunde}")
+        }
+
+        return TreningResultat(feilForEnTreningssrunde, vekterForEnTreningsrunde)
     }
 
-    data class OpplæringsrundeResultat(val feil:Double, val vekter:Matrix<Double>)
+    data class TreningResultat(val feil:Double, val vekterTrent:Matrix<Double>)
 }
