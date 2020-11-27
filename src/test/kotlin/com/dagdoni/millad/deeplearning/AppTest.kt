@@ -19,8 +19,8 @@ class AppTest {
         var totalFeil = 0.0
         (0 until 60).forEach {
            val resultat = App.opplæringsrunde(vertikalBildeMatrise, kernelStorrelse, vekter, maal,alpha)
-            totalFeil = resultat.first
-            vekter = resultat.second
+            totalFeil = resultat.feil
+            vekter = resultat.vekter
         }
         assertEquals( 0,totalFeil.roundToInt())
     }

@@ -18,10 +18,9 @@ object App {
 
             println("Trening :::::::::::::::::::::::::::::::::")
             (0 until 135).forEach {
-                val result = opplæringsrunde(vertikalBildeMatrise, kernelStorrelse, vekter, maal, alpha)
-                val totalFeil = result.first
-                vekter = result.second
-                println("${it} : ${totalFeil}")
+                val resultat = opplæringsrunde(vertikalBildeMatrise, kernelStorrelse, vekter, maal, alpha)
+                vekter = resultat.vekter
+                println("${it} : ${resultat.feil}")
             }
 
             println("Verifisering :::::::::::::::::::::::::::::::::")
@@ -41,7 +40,7 @@ object App {
             println("Programslutt :::::::::::::::::::::::::::::::::")
         }
 
-    fun opplæringsrunde(vertikalBildeMatrise: Matrise, kernelStorrelse: Int, vekter: Matrix<Double>, maal: Int, alpha: Double): Pair<Double,Matrix<Double>> {
+    fun opplæringsrunde(vertikalBildeMatrise: Matrise, kernelStorrelse: Int, vekter: Matrix<Double>, maal: Int, alpha: Double):OpplæringsrundeResultat {
         // Fremoverforplantning
         var vekterForEnOpplæringsrunde = vekter
         val lag_1 = vertikalBildeMatrise.conv(Matrise.hentVertikalKernel(kernelStorrelse))
@@ -52,6 +51,8 @@ object App {
         //Bakoverforplantning
         val lag_2_derivant = (lag_2 - maal) * (Matrise.reluDerivant(lag_1))
         vekterForEnOpplæringsrunde -= (alpha * lag_2_derivant)
-        return Pair(feilForEnOpplæringsrunde, vekterForEnOpplæringsrunde)
+        return OpplæringsrundeResultat(feilForEnOpplæringsrunde, vekterForEnOpplæringsrunde)
     }
+
+    data class OpplæringsrundeResultat(val feil:Double, val vekter:Matrix<Double>)
 }
