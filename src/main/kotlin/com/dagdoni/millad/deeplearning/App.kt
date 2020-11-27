@@ -18,21 +18,10 @@ object App {
 
             println("Trening :::::::::::::::::::::::::::::::::")
             (0 until 135).forEach {
-                    
-                //Todo: ta ut og test alene uten tilfeldige vekter
-                    
-                // Fremoverforplantning
-                val lag_1 = vertikalBildeMatrise.conv(Matrise.hentVertikalKernel(kernelStorrelse))
-                val lag_2: Double = Matrise.relu(dot(lag_1, vekter))
-
-
-                val feil = (lag_2 - maal).pow(2)
-
-                //Bakoverforplantning
-                val lag_2_derivant = (lag_2 - maal) * (Matrise.reluDerivant(lag_1))
-                vekter -= (alpha * lag_2_derivant)
-
-                println("${it} : ${feil}")
+                val result = opplæringsrunde(vertikalBildeMatrise, kernelStorrelse, vekter, maal, alpha)
+                val totalFeil = result.first
+                vekter = result.second
+                println("${it} : ${totalFeil}")
             }
 
             println("Verifisering :::::::::::::::::::::::::::::::::")
@@ -51,4 +40,18 @@ object App {
 
             println("Programslutt :::::::::::::::::::::::::::::::::")
         }
+
+    fun opplæringsrunde(vertikalBildeMatrise: Matrise, kernelStorrelse: Int, vekter: Matrix<Double>, maal: Int, alpha: Double): Pair<Double,Matrix<Double>> {
+        // Fremoverforplantning
+        var vekterForEnOpplæringsrunde = vekter
+        val lag_1 = vertikalBildeMatrise.conv(Matrise.hentVertikalKernel(kernelStorrelse))
+        val lag_2: Double = Matrise.relu(dot(lag_1, vekterForEnOpplæringsrunde))
+
+        val feilForEnOpplæringsrunde = (lag_2 - maal).pow(2)
+
+        //Bakoverforplantning
+        val lag_2_derivant = (lag_2 - maal) * (Matrise.reluDerivant(lag_1))
+        vekterForEnOpplæringsrunde -= (alpha * lag_2_derivant)
+        return Pair(feilForEnOpplæringsrunde, vekterForEnOpplæringsrunde)
+    }
 }
