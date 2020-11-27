@@ -21,13 +21,12 @@ class AppTest {
         var totalFeilForRiktigBilde = 0.0
         val antallTrenningsRunder = 60
 
-
         vekter = App.trening(vertikalBildeMatrise, kernelStorrelse, vekter, maal,alpha,antallTrenningsRunder).vekterTrent
 
-        val horizontalBildeMatrise = Matrise(Matrise.hentHorizontalKernel(9))
-        val f_lag_1 = horizontalBildeMatrise.conv(Matrise.hentHorizontalKernel(kernelStorrelse))
-        val f_lag_2 = Matrise.relu(dot(f_lag_1, vekter))
-        val feil_prosent_gitt_feil_bilde = (f_lag_2 - maal).pow(2)
+        val feilBildeMatrise = Matrise(Matrise.hentHorizontalKernel(9))
+        val feil_bilde_lag_1 = feilBildeMatrise.conv(Matrise.hentHorizontalKernel(kernelStorrelse))
+        val feil_bilde_lag_2 = Matrise.relu(dot(feil_bilde_lag_1, vekter))
+        val feil_prosent_gitt_feil_bilde = (feil_bilde_lag_2 - maal).pow(2)
 
         assertEquals( 0,totalFeilForRiktigBilde.roundToInt())
         assertTrue(feil_prosent_gitt_feil_bilde.roundToInt() >= 1)
