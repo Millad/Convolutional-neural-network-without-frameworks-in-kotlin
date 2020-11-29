@@ -16,7 +16,7 @@ class AppTest {
         val kernelStorrelse = 3
         val alpha = 0.004
         val vekterStorrelse = 9
-        val antallTrenningsRunder = 60
+        val antallTrenningsRunder = 130
 
         val treningsresultat = App.trening(vertikalBildeMatrise, kernelStorrelse,  maal,alpha,antallTrenningsRunder, vekterStorrelse )
 
