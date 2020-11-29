@@ -34,7 +34,7 @@ class AppTest {
         val vertikalBildeMatrise = Matrise(Matrise.hentVertikalKernel(9))
         val maal = 1
         val kernelStorrelse = 3
-        val alpha = 0.004
+        val alpha = 0.4
         val vekterStorrelse = 9
         val antallTrenningsrunder = 1
 
