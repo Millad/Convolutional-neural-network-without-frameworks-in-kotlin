@@ -11,11 +11,11 @@ object App {
         fun main(args: Array<String>) {
             val vertikalBildeMatrise: Matrise = Bilde("vertikalLinje.png").somMatrise()
             val mål = 1
-            val alpha = 0.004
+            val alpha = 0.04
             val kernelStorrelse = 3
             val vekterStorrelse = 9
 
-            val antallTreningsrunder = 135
+            val antallTreningsrunder = 8
 
             println("Trening :::::::::::::::::::::::::::::::::")
             val vekterTrent = trening(vertikalBildeMatrise, kernelStorrelse,  mål, alpha,antallTreningsrunder, vekterStorrelse ).vekterTrent

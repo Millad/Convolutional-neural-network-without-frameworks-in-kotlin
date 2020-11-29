@@ -14,9 +14,9 @@ class AppTest {
         val vertikalBildeMatrise = Matrise(Matrise.hentVertikalKernel(9))
         val maal = 1
         val kernelStorrelse = 3
-        val alpha = 0.004
+        val alpha = 0.04
         val vekterStorrelse = 9
-        val antallTrenningsrunder = 130
+        val antallTrenningsrunder = 10
 
         val treningsresultat = App.trening(vertikalBildeMatrise, kernelStorrelse,  maal,alpha,antallTrenningsrunder, vekterStorrelse )
 
@@ -34,7 +34,7 @@ class AppTest {
         val vertikalBildeMatrise = Matrise(Matrise.hentVertikalKernel(9))
         val maal = 1
         val kernelStorrelse = 3
-        val alpha = 0.4
+        val alpha = 0.04
         val vekterStorrelse = 9
         val antallTrenningsrunder = 1
 
