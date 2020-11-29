@@ -1,7 +1,6 @@
 package com.dagdoni.millad.deeplearning
 
 import koma.dot
-import koma.matrix.Matrix
 import koma.pow
 import org.junit.jupiter.api.Test
 
@@ -16,19 +15,17 @@ class AppTest {
         val maal = 1
         val kernelStorrelse = 3
         val alpha = 0.004
-        val vekterStorrelse = Matrise.hentVertikalKernel(9)
-        var vekter: Matrix<Double> = Matrise(vekterStorrelse).tilfeldigeVekter()
-        var totalFeilForRiktigBilde = 0.0
+        val vekterStorrelse = 9
         val antallTrenningsRunder = 60
 
-        vekter = App.trening(vertikalBildeMatrise, kernelStorrelse, vekter, maal,alpha,antallTrenningsRunder).vekterTrent
+        val treningsresultat = App.trening(vertikalBildeMatrise, kernelStorrelse,  maal,alpha,antallTrenningsRunder, vekterStorrelse )
 
         val feilBildeMatrise = Matrise(Matrise.hentHorizontalKernel(9))
         val feil_bilde_lag_1 = feilBildeMatrise.conv(Matrise.hentHorizontalKernel(kernelStorrelse))
-        val feil_bilde_lag_2 = Matrise.relu(dot(feil_bilde_lag_1, vekter))
-        val feil_prosent_gitt_feil_bilde = (feil_bilde_lag_2 - maal).pow(2)
+        val feil_bilde_lag_2 = Matrise.relu(dot(feil_bilde_lag_1, treningsresultat.vekterTrent))
+        val feil_gitt_feil_bilde = (feil_bilde_lag_2 - maal).pow(2)
 
-        assertEquals( 0,totalFeilForRiktigBilde.roundToInt())
-        assertTrue(feil_prosent_gitt_feil_bilde.roundToInt() >= 1)
+        assertEquals( 0,treningsresultat.feil.roundToInt())
+        assertTrue(feil_gitt_feil_bilde.roundToInt() >= 1)
     }
 }
