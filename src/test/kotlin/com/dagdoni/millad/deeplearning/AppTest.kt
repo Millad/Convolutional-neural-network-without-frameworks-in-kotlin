@@ -28,4 +28,18 @@ class AppTest {
         assertEquals( 0,treningsresultat.feil.roundToInt())
         assertTrue(feil_gitt_feil_bilde.roundToInt() >= 1)
     }
+
+    @Test
+    fun skal_teste_trening_svarer_med_feil_er_0_gitt_veldig_få_treningsrunder() {
+        val vertikalBildeMatrise = Matrise(Matrise.hentVertikalKernel(9))
+        val maal = 1
+        val kernelStorrelse = 3
+        val alpha = 0.004
+        val vekterStorrelse = 9
+        val antallTrenningsrunder = 1
+
+        val treningsresultat = App.trening(vertikalBildeMatrise, kernelStorrelse,  maal,alpha,antallTrenningsrunder, vekterStorrelse )
+
+        assertTrue(0 != treningsresultat.feil.roundToInt())
+    }
 }
