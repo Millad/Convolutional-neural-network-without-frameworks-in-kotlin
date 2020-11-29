@@ -16,9 +16,9 @@ class AppTest {
         val kernelStorrelse = 3
         val alpha = 0.004
         val vekterStorrelse = 9
-        val antallTrenningsRunder = 130
+        val antallTrenningsrunder = 130
 
-        val treningsresultat = App.trening(vertikalBildeMatrise, kernelStorrelse,  maal,alpha,antallTrenningsRunder, vekterStorrelse )
+        val treningsresultat = App.trening(vertikalBildeMatrise, kernelStorrelse,  maal,alpha,antallTrenningsrunder, vekterStorrelse )
 
         val feilBildeMatrise = Matrise(Matrise.hentHorizontalKernel(9))
         val feil_bilde_lag_1 = feilBildeMatrise.conv(Matrise.hentHorizontalKernel(kernelStorrelse))
