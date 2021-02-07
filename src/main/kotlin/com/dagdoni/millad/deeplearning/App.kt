@@ -37,7 +37,7 @@ object App {
             println("Programslutt :::::::::::::::::::::::::::::::::")
         }
 
-    fun trening(vertikalBildeMatrise: Matrise, kernelStorrelse: Int, mål: Int, alpha: Double, antallOpplæringsrunder:Int, vekterStorrelse:Int):TreningResultat {
+    fun trening(vertikalBildeMatrise: Matrise, kernelStorrelse: Int, mål: Int, alpha: Double, antallOpplæringsrunder:Int, vekterStorrelse:Int):Treningsresultat {
 
         var vekter: Matrix<Double> = Matrise(vekterStorrelse).tilfeldigeVekter()
         var feil = 0.0
@@ -54,8 +54,8 @@ object App {
             println("${it} : ${feil}")
         }
 
-        return TreningResultat(feil, vekter)
+        return Treningsresultat(feil, vekter)
     }
 
-    data class TreningResultat(val feil:Double, val vekterTrent:Matrix<Double>)
+    data class Treningsresultat(val feil:Double, val vekterTrent:Matrix<Double>)
 }
