@@ -30,7 +30,7 @@ class AppTest {
     }
 
     @Test
-    fun skal_teste_trening_svarer_med_hoy_feil_gitt_veldig_få_treningsrunder() {
+    fun skal_teste_trening_svarer_med_høy_feil_gitt_veldig_få_treningsrunder() {
         val vertikalBildeMatrise = Matrise(Matrise.hentVertikalKernel(9))
         val maal = 1
         val kernelStorrelse = 3
