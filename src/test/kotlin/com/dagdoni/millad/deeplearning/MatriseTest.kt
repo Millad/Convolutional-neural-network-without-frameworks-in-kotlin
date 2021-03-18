@@ -11,7 +11,7 @@ import kotlin.math.absoluteValue
 class MatriseTest{
 
     @Test
-    fun `skal kunne hente riktig verdier fra bildetmatrisen basert på liten kernel størrelse`(){
+    fun `skal kunne hente riktig verdier fra bildematrisen basert på liten kernel størrelse`(){
         // GITT
         val mat:Matrix<Double> =    koma.mat[1,1,2,2 end
                                              1,1,2,2 end
