@@ -13,7 +13,7 @@ class Bilde(val navnPaBilde: String) {
         OpenCV.loadLocally()
     }
 
-    fun somMatrise(): Matrise {
+    fun hentMatrise(): Matrise {
         val url: URL = javaClass.classLoader.getResource(navnPaBilde) ?: return Matrise(0,0)
         val mat: Mat = Imgcodecs.imread(File(url.toURI()).toString(),CvType.CV_8UC1)
         return Matrise(mat)

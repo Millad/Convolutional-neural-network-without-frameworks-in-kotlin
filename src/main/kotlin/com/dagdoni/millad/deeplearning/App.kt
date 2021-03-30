@@ -9,7 +9,7 @@ import koma.pow
 object App {
     @JvmStatic
     fun main(args: Array<String>) {
-        val vertikalBildeMatrise: Matrise = Bilde("vertikalLinje.png").somMatrise()
+        val vertikalBildeMatrise: Matrise = Bilde("vertikalLinje.png").hentMatrise()
         val mål = 1
         val alpha = 0.04
         val kernelStorrelse = 3
@@ -29,7 +29,7 @@ object App {
 
         // Verifiser feil bilde med høy error
         val horisontalBilde = Bilde("horizontalLinje.png")
-        val feil_bilde_lag_1 = horisontalBilde.somMatrise().conv(Matrise.hentHorizontalKernel(kernelStorrelse))
+        val feil_bilde_lag_1 = horisontalBilde.hentMatrise().conv(Matrise.hentHorizontalKernel(kernelStorrelse))
         val feil_bilde_lag_2 = Matrise.relu(dot(feil_bilde_lag_1, vekterTrent))
         val feil_gitt_feil_bilde = (feil_bilde_lag_2 - mål).pow(2)
         println("Feil for et helt annet bilde: ${feil_gitt_feil_bilde}")

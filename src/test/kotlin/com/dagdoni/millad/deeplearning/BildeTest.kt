@@ -7,7 +7,7 @@ internal class BildeTest {
 
     @Test
     fun `skal kunne returnere tom Mat om filen ikke finnes`() {
-        assertThat(Bilde("").somMatrise().erTom()).isTrue()
+        assertThat(Bilde("").hentMatrise().erTom()).isTrue()
     }
 
     @Test
