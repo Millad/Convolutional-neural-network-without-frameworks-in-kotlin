@@ -47,8 +47,8 @@ class Matrise() {
         val lag_0_bilde_split_kernel_storrelser:  ArrayList<Matrix<Double>>  = hentMatriseStriveForKernel(kernelStorrelse)
         val lag_2_summeringer = eye(1,lag_0_bilde_split_kernel_storrelser.size)
 
-        lag_0_bilde_split_kernel_storrelser.withIndex().forEach{(index,bildeMatrise) ->
-            val bildeDelProduktKernel = bildeMatrise *  kernel
+        lag_0_bilde_split_kernel_storrelser.withIndex().forEach{(index,bildematrise) ->
+            val bildeDelProduktKernel = bildematrise *  kernel
             lag_2_summeringer.set(0,index,bildeDelProduktKernel.elementSum())
         }
         return lag_2_summeringer
