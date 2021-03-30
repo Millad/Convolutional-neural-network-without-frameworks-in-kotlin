@@ -14,22 +14,22 @@ import org.opencv.core.Mat
 class Matrise() {
 
     private var matrix: Matrix<Double>
-    private var bildeMatrise: Mat
+    private var bildematrise: Mat
 
     constructor(mat:Mat):this(mat.rows(),mat.cols()){
-        bildeMatrise = mat
+        bildematrise = mat
         genererMatrixFrabildet()
     }
 
     constructor(rad: Int, kolonne: Int, verdi:Double):this(rad,kolonne){
         matrix = eye(rad,kolonne)
         matrix.set(0,0,verdi)
-        bildeMatrise = Mat.eye(rad,kolonne,CvType.CV_8UC1)
+        bildematrise = Mat.eye(rad,kolonne,CvType.CV_8UC1)
     }
     constructor(kernelStorrelse: Int):this(kernelStorrelse,kernelStorrelse)
     constructor(rad:Int,kolonne:Int):this(){
         matrix = eye(rad,kolonne)
-        bildeMatrise = Mat.eye(rad,kolonne,CvType.CV_8UC1)
+        bildematrise = Mat.eye(rad,kolonne,CvType.CV_8UC1)
     }
 
     constructor(matrix: Matrix<Double>):this(){
@@ -39,7 +39,7 @@ class Matrise() {
     init {
         OpenCV.loadLocally()
         matrix = eye(0)
-        bildeMatrise = Mat.eye(0,0,CvType.CV_8UC1)
+        bildematrise = Mat.eye(0,0,CvType.CV_8UC1)
     }
 
     fun conv(kernel:Matrix<Double>):Matrix<Double>{
@@ -80,8 +80,8 @@ class Matrise() {
     }
 
     private fun genererMatrixFrabildet() {
-        val endeligMatrise = Mat(bildeMatrise.rows(),bildeMatrise.cols(),bildeMatrise.type())
-        Core.bitwise_not(bildeMatrise,endeligMatrise)
+        val endeligMatrise = Mat(bildematrise.rows(),bildematrise.cols(),bildematrise.type())
+        Core.bitwise_not(bildematrise,endeligMatrise)
         val nyttBildeMatrise = Mat(endeligMatrise.rows(),endeligMatrise.cols(),endeligMatrise.type())
         Core.divide(255.0,endeligMatrise,nyttBildeMatrise)
 
