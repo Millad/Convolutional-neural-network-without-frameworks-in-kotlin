@@ -19,7 +19,7 @@ class MatriseTest{
                                              3,3,4,4 ]
 
         // NÅR
-        val matrixFraConvOperasjon = Matrise(mat).hentMatriseStriveForKernel(2)
+        val matrixFraConvOperasjon = Matrise(mat).hentMatriserFraStridesOperasjon(2)
 
         // SÅ
         val forventet1:Matrix<Double> =   koma.mat[1,1 end

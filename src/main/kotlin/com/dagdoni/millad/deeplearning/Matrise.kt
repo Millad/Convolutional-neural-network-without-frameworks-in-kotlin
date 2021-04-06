@@ -13,54 +13,54 @@ import org.opencv.core.Mat
 
 class Matrise() {
 
-    private var matrix: Matrix<Double>
+    private var matrise: Matrix<Double>
     private var bildematrise: Mat
 
     constructor(mat:Mat):this(mat.rows(),mat.cols()){
         bildematrise = mat
-        genererMatrixFrabildet()
+        genererMatriseFrabildet()
     }
 
     constructor(rad: Int, kolonne: Int, verdi:Double):this(rad,kolonne){
-        matrix = eye(rad,kolonne)
-        matrix.set(0,0,verdi)
+        matrise = eye(rad,kolonne)
+        matrise.set(0,0,verdi)
         bildematrise = Mat.eye(rad,kolonne,CvType.CV_8UC1)
     }
     constructor(kernelStorrelse: Int):this(kernelStorrelse,kernelStorrelse)
     constructor(rad:Int,kolonne:Int):this(){
-        matrix = eye(rad,kolonne)
+        matrise = eye(rad,kolonne)
         bildematrise = Mat.eye(rad,kolonne,CvType.CV_8UC1)
     }
 
     constructor(matrix: Matrix<Double>):this(){
-       this.matrix = matrix
+       this.matrise = matrix
     }
 
     init {
         OpenCV.loadLocally()
-        matrix = eye(0)
+        matrise = eye(0)
         bildematrise = Mat.eye(0,0,CvType.CV_8UC1)
     }
 
     fun conv(kernel:Matrix<Double>):Matrix<Double>{
         val kernelStorrelse = kernel.numRows()
-        val lag_0_bilde_split_kernel_storrelser:  ArrayList<Matrix<Double>>  = hentMatriseStriveForKernel(kernelStorrelse)
-        val lag_2_summeringer = eye(1,lag_0_bilde_split_kernel_storrelser.size)
+        val lag_0_bildematriser_fra_kernel:  ArrayList<Matrix<Double>>  = hentMatriserFraStridesOperasjon(kernelStorrelse)
+        val lag_1_summeringer = eye(1,lag_0_bildematriser_fra_kernel.size)
 
-        lag_0_bilde_split_kernel_storrelser.withIndex().forEach{(index,bildematrise) ->
+        lag_0_bildematriser_fra_kernel.withIndex().forEach{ (index,bildematrise) ->
             val bildeDelProduktKernel = bildematrise *  kernel
-            lag_2_summeringer.set(0,index,bildeDelProduktKernel.elementSum())
+            lag_1_summeringer.set(0,index,bildeDelProduktKernel.elementSum())
         }
-        return lag_2_summeringer
+        return lag_1_summeringer
     }
 
-    fun hentMatriseStriveForKernel(kernelStorrelse: Int):  ArrayList<Matrix<Double>> {
-        val strideStorrelse = matrix.numCols() / kernelStorrelse
+    fun hentMatriserFraStridesOperasjon(kernelStorrelse: Int):  ArrayList<Matrix<Double>> {
+        val strideStorrelse = matrise.numCols() / kernelStorrelse
         val matrixList:ArrayList<Matrix<Double>> = ArrayList()
-        for(strideDown in 0 until  matrix.numRows() step strideStorrelse){
-            for(strideRight in 0 until  matrix.numCols() step strideStorrelse){
-                val m = matrix.get(IntRange(strideDown, strideDown+1),IntRange(strideRight,strideRight+1))
-                matrixList.add(m)
+        for(strideNedoverBildet in 0 until  matrise.numRows() step strideStorrelse){
+            for(strideHøyreForBildet in 0 until  matrise.numCols() step strideStorrelse){
+                val enkelStrideMatrise = matrise.get(IntRange(strideNedoverBildet, strideNedoverBildet+1),IntRange(strideHøyreForBildet,strideHøyreForBildet+1))
+                matrixList.add(enkelStrideMatrise)
             }
         }
         return matrixList
@@ -72,14 +72,14 @@ class Matrise() {
     }
 
     fun erTom():Boolean{
-         return this.matrix.to2DArray().isEmpty()
+         return this.matrise.to2DArray().isEmpty()
     }
 
     fun storrelse():Pair<Int,Int>{
-        return Pair(matrix.numRows(),matrix.numCols())
+        return Pair(matrise.numRows(),matrise.numCols())
     }
 
-    private fun genererMatrixFrabildet() {
+    private fun genererMatriseFrabildet() {
         val endeligMatrise = Mat(bildematrise.rows(),bildematrise.cols(),bildematrise.type())
         Core.bitwise_not(bildematrise,endeligMatrise)
         val nyttBildeMatrise = Mat(endeligMatrise.rows(),endeligMatrise.cols(),endeligMatrise.type())
@@ -93,11 +93,11 @@ class Matrise() {
             }
         }
 
-        this.matrix = mat
+        this.matrise = mat
     }
 
     fun matrise():Matrix<Double>{
-        return matrix
+        return matrise
     }
 
     override fun toString():String{
