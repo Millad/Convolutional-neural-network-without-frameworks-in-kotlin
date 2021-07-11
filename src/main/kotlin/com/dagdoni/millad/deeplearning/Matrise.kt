@@ -18,7 +18,7 @@ class Matrise() {
 
     constructor(mat:Mat):this(mat.rows(),mat.cols()){
         bildematrise = mat
-        genererMatriseFrabildet()
+        genererMatriseFraBildematrise()
     }
 
     constructor(rad: Int, kolonne: Int, verdi:Double):this(rad,kolonne){
@@ -43,8 +43,8 @@ class Matrise() {
     }
 
     fun conv(kernel:Matrix<Double>):Matrix<Double>{
-        val kernelStorrelse = kernel.numRows()
-        val lag_0_bildematriser_fra_kernel:  ArrayList<Matrix<Double>>  = hentMatriserFraStridesOperasjon(kernelStorrelse)
+        val kernelStørrelse = kernel.numRows()
+        val lag_0_bildematriser_fra_kernel:  ArrayList<Matrix<Double>>  = hentMatriserFraStridesOperasjon(kernelStørrelse)
         val lag_1_summeringer = eye(1,lag_0_bildematriser_fra_kernel.size)
 
         lag_0_bildematriser_fra_kernel.withIndex().forEach{ (index,bildematrise) ->
@@ -66,20 +66,20 @@ class Matrise() {
         return matrixList
     }
 
-    fun tilfeldigeVekter():Matrix<Double>{
-        if(erTom()) return eye(storrelse().first,storrelse().second)
-        return rand(1,storrelse().first, MatrixTypes.DoubleType)
+    fun hentTilfeldigeVekter():Matrix<Double>{
+        if(erTom()) return eye(hentStørrelse().first,hentStørrelse().second)
+        return rand(1,hentStørrelse().first, MatrixTypes.DoubleType)
     }
 
     fun erTom():Boolean{
          return this.matrise.to2DArray().isEmpty()
     }
 
-    fun storrelse():Pair<Int,Int>{
+    fun hentStørrelse():Pair<Int,Int>{
         return Pair(matrise.numRows(),matrise.numCols())
     }
 
-    private fun genererMatriseFrabildet() {
+    private fun genererMatriseFraBildematrise() {
         val endeligMatrise = Mat(bildematrise.rows(),bildematrise.cols(),bildematrise.type())
         Core.bitwise_not(bildematrise,endeligMatrise)
         val nyttBildeMatrise = Mat(endeligMatrise.rows(),endeligMatrise.cols(),endeligMatrise.type())
@@ -96,12 +96,12 @@ class Matrise() {
         this.matrise = mat
     }
 
-    fun matrise():Matrix<Double>{
+    fun hentMatrise():Matrix<Double>{
         return matrise
     }
 
     override fun toString():String{
-        return matrise().repr()
+        return hentMatrise().repr()
     }
 
     companion object Matrise{

@@ -22,9 +22,9 @@ object App {
 
         println("Verifisering :::::::::::::::::::::::::::::::::")
         // Verifiser riktig bilde
-        val verifisering_lag_1 = vertikalBildematrise.conv(Matrise.hentVertikalKernel(kernelStørrelse))
-        val verifisering_lag_2 = Matrise.relu(dot(verifisering_lag_1, vekterTrent))
-        val feil_gitt_riktig_bilde = (verifisering_lag_2 - mål).pow(2)
+        val riktig_bilde_lag_1 = vertikalBildematrise.conv(Matrise.hentVertikalKernel(kernelStørrelse))
+        val riktig_bilde_lag_2 = Matrise.relu(dot(riktig_bilde_lag_1, vekterTrent))
+        val feil_gitt_riktig_bilde = (riktig_bilde_lag_2 - mål).pow(2)
         println("Feil for riktig bilde       : ${feil_gitt_riktig_bilde}")
 
         // Verifiser feil bilde med høy error
@@ -39,7 +39,7 @@ object App {
 
     fun tren(vertikalBildematrise: Matrise, kernelStorrelse: Int, mål: Int, alpha: Double, antallOpplæringsrunder: Int, vekterStorrelse: Int): Treningsresultat {
 
-        var vekter: Matrix<Double> = Matrise(vekterStorrelse).tilfeldigeVekter()
+        var vekter: Matrix<Double> = Matrise(vekterStorrelse).hentTilfeldigeVekter()
         var feil = 0.0
         (0 until antallOpplæringsrunder).forEach {
             // Fremoverforplantning

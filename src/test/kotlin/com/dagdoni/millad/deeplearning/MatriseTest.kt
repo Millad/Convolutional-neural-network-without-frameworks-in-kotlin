@@ -67,8 +67,8 @@ class MatriseTest{
     @Test
     fun `skal kun returnere 1 om tall er storre enn 0 ellers returner 0 for gitt matrise`(){
         // GITT
-        val mat:Matrix<Double> = Matrise(1,1,1.0).matrise()
-        val mat2:Matrix<Double>  = Matrise(1,1,-2.0).matrise()
+        val mat:Matrix<Double> = Matrise(1,1,1.0).hentMatrise()
+        val mat2:Matrix<Double>  = Matrise(1,1,-2.0).hentMatrise()
         // NÅR
         val talletEn:Matrix<Double> = Matrise.reluDerivant(mat)
         val talletNull:Matrix<Double> = Matrise.reluDerivant(mat2)
