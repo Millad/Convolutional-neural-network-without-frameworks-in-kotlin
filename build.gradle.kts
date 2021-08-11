@@ -7,7 +7,6 @@ plugins {
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
         githubPackage("kyonifer")
         maven { url =uri("https://jitpack.io")  }
         maven { url = uri("https://plugins.gradle.org/m2/") }
