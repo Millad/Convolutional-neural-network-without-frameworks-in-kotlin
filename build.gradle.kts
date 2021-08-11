@@ -13,7 +13,7 @@ buildscript {
 
 repositories {
     mavenCentral()
-    githubPackage("kyonifer")
+    maven { githubPackage("kyonifer")(this) }
     maven { url = uri("https://jitpack.io")  }
 }
 
