@@ -1,19 +1,21 @@
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
+    id("io.github.0ffz.github-packages") version "1.2.1"
     application
 }
-
-repositories {
-    jcenter()
-    mavenCentral()
-    maven {
-        url = uri("https://dl.bintray.com/kyonifer/maven/")
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        githubPackage("kyonifer")
+        maven { url =uri("https://jitpack.io")  }
+        maven { url = uri("https://plugins.gradle.org/m2/") }
     }
 }
 
 dependencies {
-    implementation("koma:core:0.11")
+    implementation("com.kyonifer:koma-core-ejml:0.12.1")
     implementation("org.openpnp:opencv:4.3.0-2")
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
