@@ -18,14 +18,14 @@ class AppTest {
         val vekterStorrelse = 9
         val antallTrenningsrunder = 2
 
-        val treningsresultat = App.tren(vertikalBildeMatrise, kernelStorrelse,  mål,alpha,antallTrenningsrunder, vekterStorrelse )
+        val treningsresultatForRiktigBilde = App.tren(vertikalBildeMatrise, kernelStorrelse,  mål,alpha,antallTrenningsrunder, vekterStorrelse )
 
         val feilBildeMatrise = Matrise(Matrise.hentHorizontalKernel(9))
         val feil_bilde_lag_1 = feilBildeMatrise.conv(Matrise.hentHorizontalKernel(kernelStorrelse))
-        val feil_bilde_lag_2 = Matrise.relu(dot(feil_bilde_lag_1, treningsresultat.vekterTrent))
+        val feil_bilde_lag_2 = Matrise.relu(dot(feil_bilde_lag_1, treningsresultatForRiktigBilde.vekterTrent))
         val feil_gitt_feil_bilde = (feil_bilde_lag_2 - mål).pow(2)
 
-        assertTrue(treningsresultat.feil < feil_gitt_feil_bilde)
+        assertTrue(treningsresultatForRiktigBilde.feil < feil_gitt_feil_bilde)
     }
 
 
@@ -38,8 +38,8 @@ class AppTest {
         val vekterStorrelse = 9
         val antallTrenningsrunder = 1
 
-        val treningsresultat = App.tren(vertikalBildeMatrise, kernelStorrelse,  maal,alpha,antallTrenningsrunder, vekterStorrelse )
+        val treningsresultatForRiktigBilde = App.tren(vertikalBildeMatrise, kernelStorrelse,  maal,alpha,antallTrenningsrunder, vekterStorrelse )
 
-        assertTrue(0 != treningsresultat.feil.roundToInt())
+        assertTrue(0 != treningsresultatForRiktigBilde.feil.roundToInt())
     }
 }
