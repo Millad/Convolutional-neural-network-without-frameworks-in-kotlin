@@ -10,24 +10,24 @@ import kotlin.math.roundToInt
 class AppTest {
 
     @Test
-    fun skal_teste_trening_svarer_0_for_riktig_bilde_og_over_tallet_1_for_feil_bilde() {
+    fun `skal gi riktig bilde mindre feil andel enn feil bildet`() {
         val vertikalBildeMatrise = Matrise(Matrise.hentVertikalKernel(9))
-        val maal = 1
+        val mål = 1
         val kernelStorrelse = 3
         val alpha = 0.04
         val vekterStorrelse = 9
-        val antallTrenningsrunder = 10
+        val antallTrenningsrunder = 2
 
-        val treningsresultat = App.tren(vertikalBildeMatrise, kernelStorrelse,  maal,alpha,antallTrenningsrunder, vekterStorrelse )
+        val treningsresultat = App.tren(vertikalBildeMatrise, kernelStorrelse,  mål,alpha,antallTrenningsrunder, vekterStorrelse )
 
         val feilBildeMatrise = Matrise(Matrise.hentHorizontalKernel(9))
         val feil_bilde_lag_1 = feilBildeMatrise.conv(Matrise.hentHorizontalKernel(kernelStorrelse))
         val feil_bilde_lag_2 = Matrise.relu(dot(feil_bilde_lag_1, treningsresultat.vekterTrent))
-        val feil_gitt_feil_bilde = (feil_bilde_lag_2 - maal).pow(2)
+        val feil_gitt_feil_bilde = (feil_bilde_lag_2 - mål).pow(2)
 
-        assertEquals( 0,treningsresultat.feil.roundToInt())
-        assertTrue(feil_gitt_feil_bilde.roundToInt() >= 1)
+        assertTrue(treningsresultat.feil < feil_gitt_feil_bilde)
     }
+
 
     @Test
     fun skal_teste_trening_svarer_med_høy_feil_gitt_veldig_få_treningsrunder() {

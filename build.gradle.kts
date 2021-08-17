@@ -7,15 +7,19 @@ plugins {
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
-        githubPackage("kyonifer")
-        maven { url =uri("https://jitpack.io")  }
         maven { url = uri("https://plugins.gradle.org/m2/") }
     }
 }
 
+repositories {
+    mavenCentral()
+    maven { githubPackage("kyonifer")(this) }
+    maven { url = uri("https://jitpack.io")  }
+}
+
 dependencies {
     implementation("com.kyonifer:koma-core-ejml:0.12.1")
+    implementation("com.kyonifer:koma-core-api-jvm:0.12.1")
     implementation("org.openpnp:opencv:4.3.0-2")
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))

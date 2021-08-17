@@ -59,7 +59,7 @@ class Matrise() {
         val matrixList:ArrayList<Matrix<Double>> = ArrayList()
         for(strideNedoverBildet in 0 until  matrise.numRows() step strideStorrelse){
             for(strideHøyreForBildet in 0 until  matrise.numCols() step strideStorrelse){
-                val enkelStrideMatrise = matrise.get(IntRange(strideNedoverBildet, strideNedoverBildet+1),IntRange(strideHøyreForBildet,strideHøyreForBildet+1))
+                val enkelStrideMatrise = matrise.get(IntRange(strideNedoverBildet, strideNedoverBildet+(kernelStorrelse-1)),IntRange(strideHøyreForBildet,strideHøyreForBildet+(kernelStorrelse-1)))
                 matrixList.add(enkelStrideMatrise)
             }
         }

@@ -10,8 +10,41 @@ import kotlin.math.absoluteValue
 
 class MatriseTest{
 
-    //TODO: Lag en test for 9:9 matrise og Strides på 3 for å teste at den nye pakken funker her
+    @Test
+    fun `skal kunne hente riktig verdier fra bildematrise basert på liten kernel størrelse kernel på 9x9`(){
+        // GITT
+        val mat:Matrix<Double> =    koma.mat[1,1,2,2,1,1,2,2,1 end
+                                            1,1,2,2,1,1,2,2,1 end
+                                            1,1,2,2,1,1,2,2,1 end
+                                            1,1,2,2,1,1,2,2,1 end
+                                            1,1,2,2,1,1,2,2,1 end
+                                            3,3,4,4,5,5,6,6,7 end
+                                            3,3,4,4,5,5,6,6,7 end
+                                            3,3,4,4,5,5,6,6,7 end
+                                            3,3,4,4,5,5,6,6,7 ]
 
+        // NÅR
+        val matriseEtterStrideOperasjon = Matrise(mat).hentMatriserFraStridesOperasjon(3)
+
+        // SÅ
+        val forventet1:Matrix<Double> =   koma.mat[1.00,  1.00,  2.00 end
+                1.00,  1.00,  2.00 end
+                1.00,  1.00,  2.00 ]
+        val forventet2:Matrix<Double> =   koma.mat[ 2.00,  1.00,  1.00 end
+                2.00,  1.00,  1.00 end
+                2.00,  1.00,  1.00 ]
+        val forventet3:Matrix<Double> =   koma.mat[ 2.00,  2.00,  1.00 end
+                2.00,  2.00,  1.00 end
+                2.00,  2.00,  1.00 ]
+        val forventet4:Matrix<Double> =   koma.mat[ 1.00,  1.00,  2.00 end
+                1.00,  1.00,  2.00 end
+                3.00,  3.00,  4.00 ]
+
+        assertMatrixEquals(forventet1,matriseEtterStrideOperasjon.first())
+        assertMatrixEquals(forventet2, matriseEtterStrideOperasjon[1])
+        assertMatrixEquals(forventet3, matriseEtterStrideOperasjon[2])
+        assertMatrixEquals(forventet4, matriseEtterStrideOperasjon[3])
+    }
     @Test
     fun `skal kunne hente riktig verdier fra bildematrise basert på liten kernel størrelse`(){
         // GITT
