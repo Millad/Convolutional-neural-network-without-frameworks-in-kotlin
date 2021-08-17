@@ -10,6 +10,8 @@ import kotlin.math.absoluteValue
 
 class MatriseTest{
 
+    //TODO: Lag en test for 9:9 matrise og Strides på 3 for å teste at den nye pakken funker her
+
     @Test
     fun `skal kunne hente riktig verdier fra bildematrise basert på liten kernel størrelse`(){
         // GITT
